@@ -1,0 +1,23 @@
+server:
+  port: 8086
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/library?serverTimezone=Asia/Seoul
+    username: root
+    password: 940415
+  security:
+    user:
+      name: admin
+      password: 940415
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        
+  
+
+

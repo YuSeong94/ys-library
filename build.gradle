@@ -1,0 +1,35 @@
+plugins {
+	id 'java'
+	id 'application'
+	id 'org.springframework.boot' version '3.2.5'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.ysk'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+application {
+	mainClass = 'com.ysk.config.BaseApplication'
+}
+
+repositories {
+	mavenCentral()
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+apply from: 'dependencies.gradle'
