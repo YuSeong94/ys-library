@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    <div th:fragment="search-bar" id="hiddenSearchBar" class="bg-white border-bottom shadow-sm" style="display: none; position: absolute; top: 0; left: 0; width: 100%; z-index: 2000;">
+        <div class="container py-4">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 position-relative">
+                    
+                    <h4 class="fw-bold text-center mb-3">통합 자료 검색</h4>
+                    
+                    <form action="/search" method="get">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text bg-light border-0"><i class="bi bi-search"></i></span>
+                            <input type="text" name="keyword" class="form-control bg-light border-0" placeholder="도서명, 저자, 출판사를 입력해주세요" autofocus>
+                            <button class="btn btn-dark" type="submit">검색</button>
+                        </div>
+                    </form>
+
+                    <button onclick="toggleSearch()" class="btn-close position-absolute top-0 end-0 mt-n2 me-n2" aria-label="Close"></button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:fragment="search-script">
+        function toggleSearch() {
+            const searchBar = document.getElementById('hiddenSearchBar');
+            // 현재 안 보이면(none) -> 보이게(block) + 애니메이션
+            if (searchBar.style.display === 'none') {
+                searchBar.style.display = 'block';
+                searchBar.classList.add('animate__animated', 'animate__fadeInDown'); // (선택) 애니메이션 클래스 등
+            } else {
+                searchBar.style.display = 'none';
+            }
+        }
+    </script>
+
+</body>
+</html>
