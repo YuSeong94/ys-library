@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <section th:fragment="board-section" class="board-section py-5 bg-light">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center py-3">
+                            <h4 class="fw-bold mb-0">📢 공지사항</h4>
+                            <a href="#" class="text-secondary text-decoration-none small">더보기 +</a>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item border-0 d-flex justify-content-between align-items-center px-0">
+                                    <a href="#" class="text-dark text-decoration-none text-truncate w-75">
+                                        <span class="badge bg-primary me-2">공지</span>
+                                        2024년도 도서관 이용 규정 변경 안내
+                                    </a>
+                                    <span class="text-muted small">2024-01-15</span>
+                                </li>
+                                <li class="list-group-item border-0 d-flex justify-content-between align-items-center px-0">
+                                    <a href="#" class="text-dark text-decoration-none text-truncate w-75">
+                                        <span class="badge bg-secondary me-2">안내</span>
+                                        시스템 점검으로 인한 서비스 일시 중단
+                                    </a>
+                                    <span class="text-muted small">2024-01-12</span>
+                                </li>
+                                <li class="list-group-item border-0 d-flex justify-content-between align-items-center px-0">
+                                    <a href="#" class="text-dark text-decoration-none text-truncate w-75">
+                                        <span class="badge bg-secondary me-2">행사</span>
+                                        겨울방학 독서 교실 모집 안내
+                                    </a>
+                                    <span class="text-muted small">2024-01-10</span>
+                                </li>
+                                <li class="list-group-item border-0 d-flex justify-content-between align-items-center px-0">
+                                    <a href="#" class="text-dark text-decoration-none text-truncate w-75">
+                                        <span class="badge bg-secondary me-2">안내</span>
+                                        신착 도서 입고 지연 안내
+                                    </a>
+                                    <span class="text-muted small">2024-01-05</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-header bg-white border-0 py-3">
+                            <h4 class="fw-bold mb-0">📅 1월 휴관일 안내</h4>
+                        </div>
+                        <div class="card-body text-center d-flex flex-column justify-content-center align-items-center">
+                            <div class="calendar-display mb-3">
+                                <div class="calendar-header">2024.01</div>
+                                <div class="calendar-dates">
+                                    <span class="closed-day">1</span>
+                                    <span>8</span>
+                                    <span>15</span>
+                                    <span>22</span>
+                                    <span class="closed-day">29</span>
+                                </div>
+                            </div>
+                            <p class="text-muted mb-1">
+                                이번 달은 <span class="text-danger fw-bold">매주 월요일</span> 휴관입니다.
+                            </p>
+                            <p class="text-primary fw-bold">
+                                오늘(22일)은 정상 운영 중입니다. (09:00 ~ 18:00)
+                            </p>
+                            <div class="mt-3 d-flex gap-2">
+                                <a href="#" class="btn btn-outline-secondary btn-sm">연간 일정 보기</a>
+                                <a href="#" class="btn btn-primary btn-sm">열람실 현황</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

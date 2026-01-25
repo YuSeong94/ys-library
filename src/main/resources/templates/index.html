@@ -8,216 +8,27 @@
   
   <link rel="stylesheet" href="/css/index.css"> 
 </head>
-<body>
+<body class="position-relative">
   <!-- 1. Header & Navigation -->
   <nav th:replace="~{fragments/header :: main-header}"></nav>
 
-  <!-- 2. Hero Section (메인 슬라이드 & 검색창) -->
+  <!-- 2. Hero Section (이미지 슬라이드 & 검색창) -->
   <div th:replace="~{fragments/search :: search-bar}"></div>
   <section th:replace="~{fragments/hero :: main-hero}"></section>
 
+  <!-- 3. Service Section -->
+  <section th:replace="~{fragments/service :: service-section}"></section>
 
+  <!-- 4. Book Section(추천 도서) -->
+  <section th:replace="~{fragments/books :: book-section}"></section>
 
-  <!-- 3. Service Section (주요 서비스 아이콘) -->
-  <section class="service-section py-5">
-      <div class="container">
-          <h2 class="text-center fw-bold mb-5">자주 찾는 서비스</h2>
-          <div class="service-grid">
-              
-              <a href="#" class="service-item">
-                  <div class="icon-circle">📅</div>
-                  <p class="mt-3 fw-bold">대출 연장</p>
-              </a>
-
-              <a href="#" class="service-item">
-                  <div class="icon-circle">📚</div>
-                  <p class="mt-3 fw-bold">신착 도서</p>
-              </a>
-
-              <a href="#" class="service-item">
-                  <div class="icon-circle">✨</div>
-                  <p class="mt-3 fw-bold">희망도서 신청</p>
-              </a>
-
-              <a href="#" class="service-item">
-                  <div class="icon-circle">🪑</div>
-                  <p class="mt-3 fw-bold">열람실 좌석</p>
-              </a>
-
-              <a href="#" class="service-item">
-                  <div class="icon-circle">💬</div>
-                  <p class="mt-3 fw-bold">Q&A</p>
-              </a>
-
-              <a href="#" class="service-item">
-                  <div class="icon-circle">🗺️</div>
-                  <p class="mt-3 fw-bold">오시는 길</p>
-              </a>
-
-          </div>
-      </div>
-    </section>
-
-    <!-- 4. Book Section(추천 도서) -->
-    <section class="book-section py-5">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="fw-bold text-center mb-0">📚 이달의 추천 도서</h2>
-                <a href="#" class="text-secondary text-decoration-none small">더보기 +</a>
-            </div>
-            
-            <div class="row g-4">
-                <div class="col-6 col-md-3">
-                    <div class="card h-100 border-0 book-card">
-                        <div class="book-cover-wrapper">
-                            <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400&auto=format&fit=crop" class="card-img-top rounded shadow-sm" alt="책 표지">
-                        </div>
-                        <div class="card-body px-1 py-3 text-center">
-                            <h5 class="card-title fs-6 fw-bold text-truncate">우유의 역사</h5>
-                            <p class="card-text text-muted small text-truncate">마크 쿨란스키</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3">
-                    <div class="card h-100 border-0 book-card">
-                        <div class="book-cover-wrapper">
-                            <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=400&auto=format&fit=crop" class="card-img-top rounded shadow-sm" alt="책 표지">
-                        </div>
-                        <div class="card-body px-1 py-3 text-center">
-                            <h5 class="card-title fs-6 fw-bold text-truncate">금융의 모험</h5>
-                            <p class="card-text text-muted small text-truncate">존 브룩스</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3">
-                    <div class="card h-100 border-0 book-card">
-                        <div class="book-cover-wrapper">
-                            <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=400&auto=format&fit=crop" class="card-img-top rounded shadow-sm" alt="책 표지">
-                        </div>
-                        <div class="card-body px-1 py-3 text-center">
-                            <h5 class="card-title fs-6 fw-bold text-truncate">디자인의 법칙</h5>
-                            <p class="card-text text-muted small text-truncate">로빈 윌리엄스</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3">
-                    <div class="card h-100 border-0 book-card">
-                        <div class="book-cover-wrapper">
-                            <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=400&auto=format&fit=crop" class="card-img-top rounded shadow-sm" alt="책 표지">
-                        </div>
-                        <div class="card-body px-1 py-3 text-center">
-                            <h5 class="card-title fs-6 fw-bold text-truncate">생각의 탄생</h5>
-                            <p class="card-text text-muted small text-truncate">미셸 루트번스타인</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 5. Board Section (공지사항 & 휴관일) -->
-    <section class="board-section py-5 bg-light">
-        <div class="container">
-            <div class="row g-4">
-                <!-- 공지사항 카드 -->
-                <div class="col-lg-6">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <!-- 카드 헤더 -->
-                        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center py-3">
-                            <h4 class="fw-bold mb-0">📢 공지사항</h4>
-                            <a href="#" class="text-secondary text-decoration-none small">더보기 +</a>
-                        </div>
-                        <!-- 공지사항 리스트 -->
-                        <div class="card-body">
-                            <ul class="list-group list-group-flush">
-                                <!-- 공지 1 -->
-                                <li class="list-group-item border-0 d-flex justify-content-between align-items-center px-0">
-                                    <a href="#" class="text-dark text-decoration-none text-truncate w-75">
-                                        <span class="badge bg-primary me-2">공지</span>
-                                        2024년도 도서관 이용 규정 변경 안내
-                                    </a>
-                                    <span class="text-muted small">2024-01-15</span>
-                                </li>
-                                <!-- 공지 2 -->
-                                <li class="list-group-item border-0 d-flex justify-content-between align-items-center px-0">
-                                    <a href="#" class="text-dark text-decoration-none text-truncate w-75">
-                                        <span class="badge bg-secondary me-2">안내</span>
-                                        시스템 점검으로 인한 서비스 일시 중단
-                                    </a>
-                                    <span class="text-muted small">2024-01-12</span>
-                                </li>
-                                <!-- 공지 3 -->
-                                <li class="list-group-item border-0 d-flex justify-content-between align-items-center px-0">
-                                    <a href="#" class="text-dark text-decoration-none text-truncate w-75">
-                                        <span class="badge bg-secondary me-2">행사</span>
-                                        겨울방학 독서 교실 모집 안내
-                                    </a>
-                                    <span class="text-muted small">2024-01-10</span>
-                                </li>
-                                <!-- 공지 4 -->
-                                <li class="list-group-item border-0 d-flex justify-content-between align-items-center px-0">
-                                    <a href="#" class="text-dark text-decoration-none text-truncate w-75">
-                                        <span class="badge bg-secondary me-2">안내</span>
-                                        신착 도서 입고 지연 안내
-                                    </a>
-                                    <span class="text-muted small">2024-01-05</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- 휴관일 안내 카드 -->
-                <div class="col-lg-6">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <!-- 카드 헤더 -->
-                        <div class="card-header bg-white border-0 py-3">
-                            <h4 class="fw-bold mb-0">📅 1월 휴관일 안내</h4>
-                        </div>
-                        <div class="card-body text-center d-flex flex-column justify-content-center align-items-center">
-                            <!-- 달력 디스플레이 -->
-                            <div class="calendar-display mb-3">
-                                <!-- 달력 헤더 (월 표시) -->
-                                <div class="calendar-header">2024.01</div>
-                                <!-- 휴관일 날짜 표시 -->
-                                <div class="calendar-dates">
-                                    <span class="closed-day">1</span>
-                                    <span>8</span>
-                                    <span>15</span>
-                                    <span>22</span>
-                                    <span class="closed-day">29</span>
-                                </div>
-                            </div>
-                            <!-- 휴관일 안내 텍스트 -->
-                            <p class="text-muted mb-1">
-                                이번 달은 <span class="text-danger fw-bold">매주 월요일</span> 휴관입니다.
-                            </p>
-                            <p class="text-primary fw-bold">
-                                오늘(22일)은 정상 운영 중입니다. (09:00 ~ 18:00)
-                            </p>
-                            <!-- 추가 링크 버튼 -->
-                            <div class="mt-3 d-flex gap-2">
-                                <a href="#" class="btn btn-outline-secondary btn-sm">연간 일정 보기</a>
-                                <a href="#" class="btn btn-primary btn-sm">열람실 현황</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
+  <!-- 5. Board Section (공지사항 & 휴관일) -->
+  <section th:replace="~{fragments/board :: board-section}"></section>
 
   <!-- 6. Footer -->
   <footer th:replace="~{fragments/footer :: footer}"></footer>
 
-
-
-  <!-- 공통 JS 파일 로드 -->
   <th:block th:replace="~{fragments/common :: common-js}"></th:block>
-  <!-- 검색창 스크립트 -->
   <script th:replace="~{fragments/search :: search-script}"></script>
 
 </body>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    <section th:fragment="book-section" class="book-section py-5">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold text-center mb-0">📚 이달의 추천 도서</h2>
+                <a href="#" class="text-secondary text-decoration-none small">더보기 +</a>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-6 col-md-3">
+                    <div class="card h-100 border-0 book-card">
+                        <div class="book-cover-wrapper">
+                            <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=400&auto=format&fit=crop" class="card-img-top rounded shadow-sm" alt="책 표지">
+                        </div>
+                        <div class="card-body px-1 py-3 text-center">
+                            <h5 class="card-title fs-6 fw-bold text-truncate">우유의 역사</h5>
+                            <p class="card-text text-muted small text-truncate">마크 쿨란스키</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <div class="card h-100 border-0 book-card">
+                        <div class="book-cover-wrapper">
+                            <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=400&auto=format&fit=crop" class="card-img-top rounded shadow-sm" alt="책 표지">
+                        </div>
+                        <div class="card-body px-1 py-3 text-center">
+                            <h5 class="card-title fs-6 fw-bold text-truncate">금융의 모험</h5>
+                            <p class="card-text text-muted small text-truncate">존 브룩스</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <div class="card h-100 border-0 book-card">
+                        <div class="book-cover-wrapper">
+                            <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=400&auto=format&fit=crop" class="card-img-top rounded shadow-sm" alt="책 표지">
+                        </div>
+                        <div class="card-body px-1 py-3 text-center">
+                            <h5 class="card-title fs-6 fw-bold text-truncate">디자인의 법칙</h5>
+                            <p class="card-text text-muted small text-truncate">로빈 윌리엄스</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <div class="card h-100 border-0 book-card">
+                        <div class="book-cover-wrapper">
+                            <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=400&auto=format&fit=crop" class="card-img-top rounded shadow-sm" alt="책 표지">
+                        </div>
+                        <div class="card-body px-1 py-3 text-center">
+                            <h5 class="card-title fs-6 fw-bold text-truncate">생각의 탄생</h5>
+                            <p class="card-text text-muted small text-truncate">미셸 루트번스타인</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
