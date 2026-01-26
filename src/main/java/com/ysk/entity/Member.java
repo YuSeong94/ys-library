@@ -1,6 +1,8 @@
 package com.ysk.entity;
 
 
+import org.hibernate.annotations.ColumnDefault;
+
 import com.ysk.converter.RoleConverter;
 import com.ysk.enums.Role;
 
@@ -27,10 +29,10 @@ public class Member extends BaseEntity {
   @Column(name = "member_seq")
   private Long memberSeq;     // 회원번호 
 
-  @Column(name = "id", unique = true, nullable = false, length = 10)
+  @Column(name = "id", unique = true, nullable = false, length = 20)
   private String loginId;     // 아이디
 
-  @Column(nullable = false, length = 16)
+  @Column(nullable = false, length = 200)
   private String password;    // 비밀번호
 
   @Column(nullable = false, length = 10)
@@ -45,6 +47,8 @@ public class Member extends BaseEntity {
   private String addr1;       // 기본주소
   private String addr2;       // 상세주소
 
+  @Column(nullable = false)
+  @ColumnDefault("false")
   private Boolean isDormant;  // 휴먼계정 여부
 
   @Convert(converter = RoleConverter.class)

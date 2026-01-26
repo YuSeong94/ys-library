@@ -17,14 +17,16 @@ public class MemberController {
    */
   @GetMapping("/login")
   public String loginForm(){
-    System.out.println("=== MemberController.loginForm ===");
-    return "member/login";
+    return "members/login";
   }
 
+  /**
+   * 회원가입 페이지 이동
+   * @return
+   */
   @GetMapping("/join")
   public String joinForm(){
-    System.out.println("=== MemberController.joinForm ===");
-    return "member/join";
+    return "members/join";
   }
 
 

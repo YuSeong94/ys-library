@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ys Library : 회원가입</title>
+    <th:block th:replace="~{fragments/common :: common-head}"></th:block>
+    <style>
+        /* 회원가입 박스 너비 설정 (입력 항목이 많으니 600px로 넉넉하게) */
+        .join-card-width {
+            max-width: 600px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-light d-flex flex-column min-vh-100">
+
+    <div class="py-5 text-center">
+        <a href="/" class="text-decoration-none text-dark">
+            <h1 class="fw-bold fs-2">
+                <i class="bi bi-stars text-primary me-2"></i>유성 도서관
+            </h1>
+        </a>
+    </div>
+
+    <div class="flex-grow-1 d-flex align-items-center justify-content-center px-3">
+        <div class="join-card-width">
+            
+            <div class="text-center mb-4">
+                <h2 class="fw-bold">회원가입</h2>
+                <p class="text-muted">유성 도서관의 회원이 되어 다양한 혜택을 누려보세요.</p>
+            </div>
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 p-md-5">
+                    <form action="/members/new" method="post">
+                        
+                        <h5 class="fw-bold mb-3 border-bottom pb-2"><i class="bi bi-person-check me-2"></i>기본 정보</h5>
+                        
+                        <div class="mb-3">
+                            <label for="loginId" class="form-label fw-bold small">아이디 <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="loginId" name="loginId" placeholder="사용하실 아이디를 입력하세요" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label fw-bold small">비밀번호 <span class="text-danger">*</span></label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="name" class="form-label fw-bold small">이름 <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="실명을 입력하세요" required>
+                        </div>
+
+                        <h5 class="fw-bold mb-3 border-bottom pb-2 mt-5"><i class="bi bi-telephone me-2"></i>연락처 정보</h5>
+
+                        <div class="mb-3">
+                            <label for="phone" class="form-label fw-bold small">휴대폰 번호</label>
+                            <input type="text" class="form-control" id="phone" name="phone" placeholder="010-0000-0000">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small">주소</label>
+                            <div class="input-group mb-2">
+                                <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="우편번호">
+                                <button class="btn btn-outline-secondary" type="button">우편번호 찾기</button>
+                            </div>
+                            <input type="text" class="form-control mb-2" id="addr1" name="addr1" placeholder="기본 주소">
+                            <input type="text" class="form-control" id="addr2" name="addr2" placeholder="상세 주소를 입력하세요">
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg fw-bold fs-5">가입하기</button>
+                            <a th:href="@{/members/login}" class="btn btn-outline-secondary btn-lg fs-6">취소</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            
+            <div class="mb-5"></div>
+        </div>
+    </div>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+    
+    <th:block th:replace="~{fragments/common :: common-js}"></th:block>
+</body>
+</html>
