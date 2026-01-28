@@ -3,27 +3,40 @@ package com.ysk.dto;
 import com.ysk.entity.Member;
 import com.ysk.enums.Role;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Setter
 @Getter
 public class MemberSaveRequestDto {
   
+  @NotBlank(message = "아이디는 필수 입력 값입니다.")
   private String loginId;   // 아이디
+
+  @NotBlank(message = "비밀번호는 필수 입력 값입니다.")
+  @Size(min = 8, message = "비밀번호는 최소 8자 이상이어야 합니다.")
   private String password;  // 비밀번호
+
+  @NotBlank(message = "이름은 필수 입력 값입니다.")
   private String name;      // 이름
+
   private String phone;     // 휴대폰번호
   private String zipCode;   // 우편번호
   private String addr1;     // 기본주소
   private String addr2;     // 상세주소
-
-  public Member toEntity(){
+  
+  public Member toEntity(PasswordEncoder passwordEncoder){
     
     Member member = new Member();
     
     member.setLoginId(this.loginId);
-    member.setPassword(this.password);
+    
+    // 암호화 저장
+    member.setPassword(passwordEncoder.encode(this.password));
+    
     member.setName(this.name);
     member.setPhone(this.phone);
     member.setZipCode(this.zipCode);
@@ -33,7 +46,7 @@ public class MemberSaveRequestDto {
     // 회원가입 시 기본 권한을 USER로 설정
     member.setRole(Role.USER);
 
-    // 가입 시 휴먼계정 상태는 false로 설정
+    // 가입 시 휴면계정 상태는 false로 설정
     member.setIsDormant(false); 
 
     return member;
