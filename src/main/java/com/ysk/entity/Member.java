@@ -38,7 +38,7 @@ public class Member extends BaseEntity {
   @Column(nullable = false, length = 10)
   private String name;        // 이름
 
-  @Column(length = 11)
+  @Column(length = 20)
   private String phone;       // 휴대폰번호
 
   @Column(length = 10)

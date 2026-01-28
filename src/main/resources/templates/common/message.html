@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>알림</title>
+</head>
+<body>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        
+        // 컨트롤러에서 보낸 값을 받음 (없으면 null)
+        var message = /*[[${message}]]*/ null;
+        var searchUrl = /*[[${searchUrl}]]*/ null;
+
+        // 1. 메시지가 있으면 알림창 띄움
+        if (message) {
+            alert(message);
+        }
+
+        // 2. 이동할 주소가 있으면 이동, 없으면 뒤로가기
+        if (searchUrl) {
+            location.href = searchUrl;
+        } else {
+            history.back();
+        }
+        
+        /*]]>*/
+    </script>
+</body>
+</html>

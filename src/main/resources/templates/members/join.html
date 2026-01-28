@@ -5,26 +5,23 @@
     <title>Ys Library : 회원가입</title>
     <th:block th:replace="~{fragments/common :: common-head}"></th:block>
     <style>
-        /* 회원가입 박스 너비 설정 (입력 항목이 많으니 600px로 넉넉하게) */
-        .join-card-width {
-            max-width: 600px;
-            width: 100%;
-        }
+        .join-card-width { max-width: 600px; width: 100%; }
+        /* 비밀번호 일치 메시지 스타일 */
+        .pw-msg { font-size: 0.8rem; margin-top: 5px; font-weight: bold; }
+        .text-success { color: #198754 !important; }
+        .text-danger { color: #dc3545 !important; }
     </style>
 </head>
 <body class="bg-light d-flex flex-column min-vh-100">
 
     <div class="py-5 text-center">
         <a href="/" class="text-decoration-none text-dark">
-            <h1 class="fw-bold fs-2">
-                <i class="bi bi-stars text-primary me-2"></i>유성 도서관
-            </h1>
+            <h1 class="fw-bold fs-2"><i class="bi bi-stars text-primary me-2"></i>유성 도서관</h1>
         </a>
     </div>
 
     <div class="flex-grow-1 d-flex align-items-center justify-content-center px-3">
         <div class="join-card-width">
-            
             <div class="text-center mb-4">
                 <h2 class="fw-bold">회원가입</h2>
                 <p class="text-muted">유성 도서관의 회원이 되어 다양한 혜택을 누려보세요.</p>
@@ -32,92 +29,172 @@
 
             <div class="card shadow-sm border-0">
                 <div class="card-body p-4 p-md-5">
-                    <form action="/members/new" method="post">
+                    
+                    <form action="/members/new" method="post" th:object="${memberSaveRequestDto}" 
+                          onsubmit="return validateForm()" autocomplete="off" id="joinForm">
                         
                         <h5 class="fw-bold mb-3 border-bottom pb-2"><i class="bi bi-person-check me-2"></i>기본 정보</h5>
                         
                         <div class="mb-3">
                             <label for="loginId" class="form-label fw-bold small">아이디 <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="loginId" name="loginId" placeholder="사용하실 아이디를 입력하세요" required>
+                            <input type="text" class="form-control" id="loginId" th:field="*{loginId}" 
+                                  placeholder="영문, 숫자 포함 20자 이내" 
+                                  maxlength="20" oninput="filterIdInput(this)" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="password" class="form-label fw-bold small">비밀번호 <span class="text-danger">*</span></label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요" required>
+                            <input type="password" class="form-control" id="password" th:field="*{password}" 
+                                  placeholder="8~16자 이내로 입력해주세요" 
+                                  maxlength="16" oninput="checkPasswordMatch()" required>
+                            </div>
+
+                        <div class="mb-3">
+                            <label for="passwordConfirm" class="form-label fw-bold small">비밀번호 확인 <span class="text-danger">*</span></label>
+                            <input type="password" class="form-control" id="passwordConfirm" 
+                                  placeholder="비밀번호를 한번 더 입력해주세요" 
+                                  maxlength="16" oninput="checkPasswordMatch()" required>
+                            <div id="pwMatchMsg" class="pw-msg"></div>
                         </div>
 
                         <div class="mb-4">
                             <label for="name" class="form-label fw-bold small">이름 <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="실명을 입력하세요" required>
+                            <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="실명을 입력하세요" required>
                         </div>
 
                         <h5 class="fw-bold mb-3 border-bottom pb-2 mt-5"><i class="bi bi-telephone me-2"></i>연락처 정보</h5>
 
                         <div class="mb-3">
                             <label for="phone" class="form-label fw-bold small">휴대폰 번호</label>
-                            <input type="text" class="form-control" id="phone" name="phone" placeholder="010-0000-0000">
+                            <input type="text" class="form-control" id="phone" th:field="*{phone}" 
+                                  placeholder="숫자만 입력해주세요" maxlength="13" oninput="autoHyphen(this)">
                         </div>
 
                         <div class="mb-3">
-                          <label class="form-label fw-bold small">주소</label>
-                          <div class="input-group mb-2">
-                              <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="우편번호" readonly>
-                              <button class="btn btn-outline-secondary" type="button" onclick="execDaumPostcode()">우편번호 찾기</button>
-                          </div>
-                          <input type="text" class="form-control mb-2" id="addr1" name="addr1" placeholder="기본 주소" readonly>
-                          <input type="text" class="form-control" id="addr2" name="addr2" placeholder="상세 주소를 입력하세요">
+                            <label class="form-label fw-bold small">주소</label>
+                            <div class="input-group mb-2">
+                                <input type="text" class="form-control" id="zipCode" th:field="*{zipCode}" placeholder="우편번호" readonly>
+                                <button class="btn btn-outline-secondary" type="button" onclick="execDaumPostcode()">우편번호 찾기</button>
+                            </div>
+                            <input type="text" class="form-control mb-2" id="addr1" th:field="*{addr1}" placeholder="기본 주소" readonly>
+                            <input type="text" class="form-control" id="addr2" th:field="*{addr2}" placeholder="상세 주소를 입력하세요">
                         </div>
 
                         <hr class="my-4">
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary btn-lg fw-bold fs-5">가입하기</button>
-                            <a th:href="@{/members/login}" class="btn btn-outline-secondary btn-lg fs-6">취소</a>
+                            <a th:href="@{/members/login}" class="btn btn-outline-secondary btn-lg fs-6">취소 (로그인으로 돌아가기)</a>
                         </div>
-
                     </form>
                 </div>
             </div>
-            
             <div class="mb-5"></div>
         </div>
     </div>
 
     <footer th:replace="~{fragments/footer :: footer}"></footer>
-    
     <th:block th:replace="~{fragments/common :: common-js}"></th:block>
-
-    <!-- Daum 주소검색 API -->
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script>
+
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      window.onload = function() {
+          
+          // 1. 서버 에러 메시지 확인
+          var errorMessage = /*[[${errorMessage}]]*/ null;
+          
+          // 2. 만약 "Data too long" 같은 DB 에러가 났다면? (사용자 실수 아님)
+          //    -> 사용자에게는 "시스템 오류"라고 알려주고 폼을 비우는 게 나을 수도 있음
+          if (errorMessage) {
+              // SQL 에러 메시지는 너무 기니까, 사용자 친화적으로 보여주고 싶다면 분기 처리 가능
+              if(errorMessage.includes("Data too long")) {
+                  alert("시스템 오류: 데이터 저장 공간 부족. 관리자에게 문의하세요.");
+              } else {
+                  alert(errorMessage); // 중복 아이디 등 일반 에러
+              }
+          }
+
+          // ✅ 3. 어떤 상황이든 페이지 로딩 시 입력창 강제 초기화 (값이 남지 않게)
+          // setTimeout을 쓰는 이유: 브라우저가 자동완성으로 채운 뒤에 싹 지우기 위해 아주 잠깐 기다림
+          setTimeout(function() {
+              var form = document.getElementById('joinForm');
+              if(form) {
+                  form.reset(); 
+                  // 혹시 모르니 개별 필드도 확실히 비움
+                  document.getElementById('loginId').value = "";
+                  document.getElementById('password').value = "";
+                  document.getElementById('passwordConfirm').value = "";
+              }
+          }, 10);
+      };
+      /*]]>*/
+
+        // 아이디 입력 필터
+        function filterIdInput(target) {
+            target.value = target.value.replace(/[^A-Za-z0-9]/g, '');
+        }
+
+        // 비밀번호 일치 확인 (단순 텍스트 표시용)
+        function checkPasswordMatch() {
+            const password = document.getElementById('password').value;
+            const confirm = document.getElementById('passwordConfirm').value;
+            const msgBox = document.getElementById('pwMatchMsg');
+
+            if(password === "" && confirm === "") {
+                msgBox.textContent = "";
+                return;
+            }
+
+            if (password === confirm) {
+                msgBox.textContent = "비밀번호가 일치합니다.";
+                msgBox.className = "pw-msg text-success";
+            } else {
+                msgBox.textContent = "비밀번호가 일치하지 않습니다.";
+                msgBox.className = "pw-msg text-danger";
+            }
+        }
+
+        // ✅ 폼 제출 시 최종 검증 (여기서 Alert 띄움!)
+        function validateForm() {
+            const password = document.getElementById('password').value;
+            const confirm = document.getElementById('passwordConfirm').value;
+            
+            // 1. 비밀번호 길이 체크 (8자 미만이면 Alert)
+            if (password.length < 8 || password.length > 16) {
+                alert("비밀번호는 8자 이상 16자 이하로 입력해주세요.");
+                document.getElementById('password').focus();
+                return false; // 전송 막음
+            }
+
+            // 2. 비밀번호 일치 체크
+            if (password !== confirm) {
+                alert("비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
+                document.getElementById('passwordConfirm').focus();
+                return false;
+            }
+            
+            return true; // 문제 없으면 전송
+        }
+
+        const autoHyphen = (target) => {
+            target.value = target.value
+                .replace(/[^0-9]/g, '')
+                .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
+                .replace(/(\-{1,2})$/g, "");
+        }
+
         function execDaumPostcode() {
             new daum.Postcode({
                 oncomplete: function(data) {
-                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                    var addr = ''; // 주소 변수
-                    var extraAddr = ''; // 참고항목 변수
-
-                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                        addr = data.roadAddress;
-                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                        addr = data.jibunAddress;
-                    }
-
-                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    var addr = data.userSelectedType === 'R' ? data.roadAddress : data.jibunAddress;
                     document.getElementById('zipCode').value = data.zonecode;
                     document.getElementById("addr1").value = addr;
-                    
-                    // 커서를 상세주소 필드로 이동한다.
                     document.getElementById("addr2").focus();
                 }
             }).open();
         }
+        /*]]>*/
     </script>
-
-
 </body>
 </html>
