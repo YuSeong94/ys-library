@@ -12,7 +12,6 @@ import com.ysk.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Controller
@@ -52,6 +51,7 @@ public class MemberController {
   @PostMapping("/new")
   public String join(@Valid MemberSaveRequestDto memberDto, BindingResult bindingResult, Model model) {
     
+    // 데이터 확인
     System.out.println("memberDto : " + memberDto);
     System.out.println("bindingResult : " + bindingResult);
     System.out.println("model : " + model);
@@ -75,5 +75,4 @@ public class MemberController {
     model.addAttribute("searchUrl", "/members/login");
     return "common/message";
   }
-
 }

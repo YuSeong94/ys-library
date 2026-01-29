@@ -31,7 +31,8 @@
             </div>
 
             <div class="card shadow-sm border-0">
-                <div class="card-body p-4 p-md-5"> <form action="/members/login" method="post">
+                <div class="card-body p-4 p-md-5"> 
+                    <form th:action="@{/members/login}" method="post">
                         
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="loginId" name="loginId" placeholder="아이디" required autofocus>
@@ -43,7 +44,8 @@
                             <label for="password">비밀번호</label>
                         </div>
 
-                        <button class="btn btn-primary w-100 py-3 fw-bold fs-5 mb-3" type="submit">로그인</button> <div class="d-flex justify-content-between align-items-center mb-3">
+                        <button class="btn btn-primary w-100 py-3 fw-bold fs-5 mb-3" type="submit">로그인</button> 
+                        <div class="d-flex justify-content-between align-items-center mb-3">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="rememberId">
                                 <label class="form-check-label text-secondary small" for="rememberId">아이디 저장</label>

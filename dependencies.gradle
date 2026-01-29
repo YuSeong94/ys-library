@@ -9,7 +9,6 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-security' 
   implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-
   // MySQL
   implementation 'mysql:mysql-connector-java:8.0.33'
 
@@ -22,4 +21,7 @@ dependencies {
   testImplementation 'org.springframework.security:spring-security-test'
   testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	
+  // 타임리프에서 스프링 시큐리티 기능을 사용하기 위한 라이브러리
+  implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
 }
