@@ -10,6 +10,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 public class SecurityConfig {
+
+  private final CustomLoginSuccessHandler customLoginSuccessHandler;
+
+  public SecurityConfig(CustomLoginSuccessHandler customLoginSuccessHandler){
+    this.customLoginSuccessHandler = customLoginSuccessHandler;
+  }
     
   @Bean // 이 메소드가 반환하는 객체(PasswordEncoder)를 스프링이 관리하는 Bean으로 등록합니다.
   public PasswordEncoder passwordEncoder() {
@@ -32,11 +38,12 @@ public class SecurityConfig {
 
           // 2. 로그인 설정
           .formLogin(form -> form
-              .loginPage("/members/login")       // 우리가 만든 로그인 페이지 URL
-              .loginProcessingUrl("/members/login") // 로그인 Form의 action URL (스프링이 가로챔)
-              .usernameParameter("loginId")      // 중요! HTML input name이 "loginId"이므로 설정 필수 (기본값: username)
-              .passwordParameter("password")     // HTML input name이 "password" (기본값과 같아서 생략 가능)
-              .defaultSuccessUrl("/", true)      // 로그인 성공 시 이동할 페이지 (메인)
+              .loginPage("/members/login")                        // 우리가 만든 로그인 페이지 URL
+              .loginProcessingUrl("/members/login")      // 로그인 Form의 action URL (스프링이 가로챔)
+              .usernameParameter("loginId")               // 중요! HTML input name이 "loginId"이므로 설정 필수 (기본값: username)
+              .passwordParameter("password")              // HTML input name이 "password" (기본값과 같아서 생략 가능)
+              .defaultSuccessUrl("/", true)    // 로그인 성공 시 이동할 페이지 (메인)
+              .successHandler(customLoginSuccessHandler)                    // 아이디 저장 기능
               .permitAll()
           )
 

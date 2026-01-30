@@ -3,8 +3,10 @@ package com.ysk.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ysk.dto.MemberSaveRequestDto;
 import com.ysk.service.MemberService;
@@ -26,7 +28,23 @@ public class MemberController {
    * @return
    */
   @GetMapping("/login")
-  public String goLoginPage(){
+  public String goLoginPage(@RequestParam(value = "error", required = false) String error,
+                            @RequestParam(value = "logout", required = false) String logout,
+                            @CookieValue(value = "savedId", required = false) String savedId, // 쿠키가 있으면 가져오고, 없으면 null
+                            Model model){
+
+    if (error != null) {
+        model.addAttribute("error", "아이디 또는 비밀번호를 확인해주세요.");
+      }
+      if (logout != null) {
+        model.addAttribute("logout", "로그아웃 되었습니다.");
+      }
+
+      // 쿠키에서 꺼낸 아이디를 model에 저장
+      if (savedId != null) {
+        model.addAttribute("savedId", savedId);
+      }
+
     return "members/login";
   }
 
