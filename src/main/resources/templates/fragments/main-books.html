@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 
-    <section th:fragment="book-section" class="book-section py-5">
+    <section th:fragment="main-books-section" class="book-section py-5">
+    <link rel="stylesheet" th:href="@{/css/fragments/main-books.css}">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="fw-bold text-center mb-0">📚 이달의 추천 도서</h2>

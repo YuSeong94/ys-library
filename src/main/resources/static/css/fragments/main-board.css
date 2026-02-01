@@ -1,0 +1,39 @@
+/* Board Section */
+.board-section { background-color: #f8f9fa; }
+.list-group-item a:hover {
+    text-decoration: underline !important;
+    color: #0d6efd !important;
+}
+.calendar-display {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    padding: 20px;
+    width: 100%;
+    max-width: 300px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+.calendar-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 2px solid #0d6efd;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+.calendar-dates {
+    display: flex;
+    justify-content: space-around;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+.closed-day {
+    color: #fff;
+    background-color: #dc3545;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

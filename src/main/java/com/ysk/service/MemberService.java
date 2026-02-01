@@ -2,12 +2,12 @@ package com.ysk.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ysk.dto.MemberSaveRequestDto;
 import com.ysk.entity.Member;
 import com.ysk.repository.MemberRepository;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -19,7 +19,7 @@ public class MemberService {
   private final PasswordEncoder passwordEncoder;
 
   /**
-   * 회원가입 메서드
+   * 회원가입
    * @param memberDto
    * @return 회원 Seq
    */
@@ -41,6 +41,12 @@ public class MemberService {
     if (memberRepository.existsByLoginId(loginId)) {
     throw new IllegalStateException("이미 존재하는 아이디입니다."); 
     }
+  }
+
+  @Transactional(readOnly = true)
+  public Member findByLoginId(String loginId) {
+        return memberRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 아이디의 회원이 없습니다."));
   }
 
 }

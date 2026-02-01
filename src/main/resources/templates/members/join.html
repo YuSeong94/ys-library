@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Ys Library : 회원가입</title>
-    <th:block th:replace="~{fragments/common :: common-head}"></th:block>
+    <th:block th:replace="~{common/common :: common-head}"></th:block>
     <style>
         .join-card-width { max-width: 600px; width: 100%; }
         /* 비밀번호 일치 메시지 스타일 */
@@ -94,7 +94,7 @@
     </div>
 
     <footer th:replace="~{fragments/footer :: footer}"></footer>
-    <th:block th:replace="~{fragments/common :: common-js}"></th:block>
+    <th:block th:replace="~{common/common :: common-js}"></th:block>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
     <script th:inline="javascript">

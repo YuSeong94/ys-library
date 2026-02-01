@@ -1,0 +1,18 @@
+/* Book Section */
+.book-section { background-color: #fff; }
+.book-card {
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+.book-cover-wrapper {
+    overflow: hidden;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.book-card img {
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+.book-card:hover { transform: translateY(-5px); }
+.book-card:hover img { transform: scale(1.05); }

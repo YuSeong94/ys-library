@@ -4,111 +4,94 @@
 <body>
 
 <nav th:fragment="main-header" class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
-    
-  <link rel="stylesheet" th:href="@{/css/fragments/header.css}">
-
-  <div class="container-fluid px-4 position-relative" style="max-width: 2200px; margin: 0 auto;">
-      
-    <a class="navbar-brand fw-bold fs-3" th:href="@{/}">
-        <i class="bi bi-stars text-primary me-2"></i>유성 도서관
-    </a>
-    
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="mainNavbar">
+    <link rel="stylesheet" th:href="@{/css/fragments/header.css}">
+    <div class="container-fluid px-4 position-relative" style="max-width: 1600px; margin: 0 auto;">
         
-      <ul class="navbar-nav navbar-center mb-2 mb-lg-0">
-          
-          <li class="nav-item dropdown px-3">
-              <a class="nav-link dropdown-toggle gnb-item" href="#" id="menu1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  자료검색
-              </a>
-              <ul class="dropdown-menu shadow-sm border-0" aria-labelledby="menu1">
-                  <li><a class="dropdown-item" href="#">통합검색</a></li>
-                  <li><a class="dropdown-item" href="#">신착도서</a></li>
-                  <li><a class="dropdown-item" href="#">주제별 도서</a></li>
-              </ul>
-          </li>
-
-          <li class="nav-item dropdown px-3">
-              <a class="nav-link dropdown-toggle gnb-item" href="#" id="menu2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  도서관 안내
-              </a>
-              <ul class="dropdown-menu shadow-sm border-0" aria-labelledby="menu2">
-                  <li><a class="dropdown-item" href="#">도서관 소개</a></li>
-                  <li><a class="dropdown-item" href="#">이용시간/휴관일</a></li>
-                  <li><a class="dropdown-item" href="#">오시는 길</a></li>
-              </ul>
-          </li>
-
-          <li class="nav-item dropdown px-3">
-              <a class="nav-link dropdown-toggle gnb-item" href="#" id="menu3" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  열린마당
-              </a>
-              <ul class="dropdown-menu shadow-sm border-0" aria-labelledby="menu3">
-                  <li><a class="dropdown-item" href="#">공지사항</a></li>
-                  <li><a class="dropdown-item" href="#">자유게시판</a></li>
-                  <li><a class="dropdown-item" href="#">묻고 답하기</a></li>
-              </ul>
-          </li>
-
-          <li class="nav-item dropdown px-3">
-              <a class="nav-link dropdown-toggle gnb-item" href="#" id="menu4" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  문화·행사
-              </a>
-              <ul class="dropdown-menu shadow-sm border-0" aria-labelledby="menu4">
-                  <li><a class="dropdown-item" href="#">이달의 행사</a></li>
-                  <li><a class="dropdown-item" href="#">문화강좌 신청</a></li>
-                  <li><a class="dropdown-item" href="#">영화 상영 일정</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">자원봉사 신청</a></li>
-              </ul>
-          </li>
-
-      </ul>
+        <a class="navbar-brand fw-bold fs-3 text-primary" th:href="@{/}">
+            <i class="bi bi-stars me-2"></i>Ys Library
+        </a>
         
-        
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
-          
-          <li class="nav-item" sec:authorize="isAnonymous()">
-              <a class="auth-link" href="/members/login">로그인</a>
-          </li>
-          <li class="nav-item" sec:authorize="isAnonymous()">
-              <span class="text-secondary opacity-50 mx-2 small">|</span>
-          </li>
-          <li class="nav-item" sec:authorize="isAnonymous()">
-              <a class="auth-link" href="/members/new">회원가입</a>
-          </li>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            
+            <ul class="navbar-nav gnb-area">
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#">자료검색</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">통합검색</a></li>
+                        <li><a class="dropdown-item" href="#">신착도서</a></li>
+                        <li><a class="dropdown-item" href="#">주제별 도서</a></li>
+                    </ul>
+                </li>
 
-          <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
-              <a class="nav-link dropdown-toggle text-dark" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding-right: 0; font-size: 1.05rem;">
-                    <span class="fw-bold text-primary">
-                        <span sec:authentication="principal.member.loginId">user1</span>
-                    </span>님
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" aria-labelledby="userMenu">
-                  <li><h6 class="dropdown-header">나의 도서관</h6></li>
-                  <li><a class="dropdown-item" href="#">대출/반납 현황</a></li>
-                  <li><a class="dropdown-item" href="#">예약/신청 내역</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">개인정보 수정</a></li>
-              </ul>
-          </li>
-          
-          <li class="nav-item" sec:authorize="isAuthenticated()">
-              <span class="text-secondary opacity-50 mx-2 small">|</span>
-          </li>
-          
-          <li class="nav-item" sec:authorize="isAuthenticated()">
-              <a class="auth-link logout-link" href="/members/logout">로그아웃</a>
-          </li>
-      </ul>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#">도서관 안내</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">도서관 소개</a></li>
+                        <li><a class="dropdown-item" href="#">이용시간/휴관일</a></li>
+                        <li><a class="dropdown-item" href="#">오시는 길</a></li>
+                    </ul>
+                </li>
 
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#">열린마당</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">공지사항</a></li>
+                        <li><a class="dropdown-item" href="#">자유게시판</a></li>
+                        <li><a class="dropdown-item" href="#">묻고 답하기</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#">문화·행사</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">이달의 행사</a></li>
+                        <li><a class="dropdown-item" href="#">문화강좌 신청</a></li>
+                        <li><a class="dropdown-item" href="#">영화 상영 일정</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+            
+            <div class="auth-area ms-auto d-flex align-items-center">
+                
+                <button type="button" class="btn btn-icon me-3" aria-label="검색" onclick="toggleSearch()">
+                    <i class="bi bi-search fs-5 text-dark"></i>
+                </button>
+
+                <div sec:authorize="isAnonymous()" class="d-flex align-items-center">
+                    <a th:href="@{/members/login}" class="auth-link">로그인</a>
+                    <span class="text-secondary opacity-50 mx-3 small">|</span>
+                    <a th:href="@{/members/join}" class="auth-link">회원가입</a>
+                </div>
+
+                <div sec:authorize="isAuthenticated()" class="d-flex align-items-center">
+                    <div class="dropdown me-3">
+                        <a class="text-decoration-none dropdown-toggle text-dark fw-bold" href="#" data-bs-toggle="dropdown">
+                            <span class="text-primary" sec:authentication="principal.member.name">사용자</span>님
+                        </a>
+                        
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                            <li><h6 class="dropdown-header">나의 도서관</h6></li>
+                            <li><a class="dropdown-item" href="#">대출/반납 현황</a></li>
+                            <li><a class="dropdown-item" href="#">예약/신청 내역</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" th:href="@{/members/edit}">개인정보 수정</a></li>
+                        </ul>
+                    </div>
+                    
+                    <a th:href="@{/members/logout}" class="auth-link text-secondary small">로그아웃</a>
+                </div>
+
+            </div> 
+        </div>
     </div>
-  </div>
+    <div th:replace="~{fragments/search :: search-bar}"></div>
+    <script th:replace="~{fragments/search :: search-script}"></script>
 </nav>
 
 </body>

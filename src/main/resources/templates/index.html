@@ -3,32 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <title>Ys Library</title>
-  
-  <th:block th:replace="~{fragments/common :: common-head}"></th:block>
-  
-  <link rel="stylesheet" href="/css/index.css"> 
+  <th:block th:replace="~{common/common :: common-head}"></th:block>
 </head>
 <body class="position-relative">
   <!-- 1. Header & Navigation -->
   <nav th:replace="~{fragments/header :: main-header}"></nav>
 
   <!-- 2. Hero Section (이미지 슬라이드 & 검색창) -->
-  <div th:replace="~{fragments/search :: search-bar}"></div>
-  <section th:replace="~{fragments/hero :: main-hero}"></section>
+  <section th:replace="~{fragments/main-hero :: main-hero-section}"></section>
 
   <!-- 3. Service Section -->
-  <section th:replace="~{fragments/service :: service-section}"></section>
+  <section th:replace="~{fragments/main-service :: main-service-section}"></section>
 
   <!-- 4. Book Section(추천 도서) -->
-  <section th:replace="~{fragments/books :: book-section}"></section>
+  <section th:replace="~{fragments/main-books :: main-books-section}"></section>
 
   <!-- 5. Board Section (공지사항 & 휴관일) -->
-  <section th:replace="~{fragments/board :: board-section}"></section>
+  <section th:replace="~{fragments/main-board :: main-board-section}"></section>
 
   <!-- 6. Footer -->
   <footer th:replace="~{fragments/footer :: footer}"></footer>
 
-  <th:block th:replace="~{fragments/common :: common-js}"></th:block>
-  <script th:replace="~{fragments/search :: search-script}"></script>
+  <th:block th:replace="~{common/common :: common-js}"></th:block>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.ysk.controller;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ysk.dto.MemberSaveRequestDto;
+import com.ysk.entity.Member;
 import com.ysk.service.MemberService;
 
 import jakarta.validation.Valid;
@@ -93,4 +95,26 @@ public class MemberController {
     model.addAttribute("searchUrl", "/members/login");
     return "common/message";
   }
+
+  // 정보수정 페이지로 이동
+  @GetMapping("/edit")
+  public String goEditPage(Model model) {
+    // 로그인 된 아이디 가져오기
+    String loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+    // 회원 정보 가져오기
+    Member member = memberService.findByLoginId(loginId);
+
+    // 모델에 저장
+    model.addAttribute("member", member);
+
+    return "members/edit";
+  }
+  
+
+
+
+
+
+
 }

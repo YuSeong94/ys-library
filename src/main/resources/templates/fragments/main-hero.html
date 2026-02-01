@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 
-    <section th:fragment="main-hero" class="main-slider-section"> 
+    <section th:fragment="main-hero-section" class="main-slider-section"> 
+    <link rel="stylesheet" th:href="@{/css/fragments/main-hero.css}">
         <div id="mainCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
             <div class="carousel-inner">
                 <div class="carousel-item active">

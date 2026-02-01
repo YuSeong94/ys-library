@@ -1,0 +1,9 @@
+/* Footer (하단 정보) */
+footer {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+footer a:hover {
+    color: #fff !important;
+    text-decoration: underline !important;
+}
