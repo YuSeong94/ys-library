@@ -3,25 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Ys Library : 회원정보 수정</title>
-    
     <th:block th:replace="~{common/common :: common-head}"></th:block>
     
     <style>
-        body {
-            background-color: #f8f9fa; /* 배경을 연한 회색으로 */
-        }
-        .edit-container {
-            max-width: 600px;
-            margin: 0 auto;
-            /* 헤더 높이만큼 여백 주기 (헤더가 fixed-top인 경우 필수) */
-            padding-top: 120px; 
-            padding-bottom: 60px;
-        }
+        body { background-color: #f8f9fa; }
+        .edit-container { max-width: 600px; margin: 0 auto; padding-top: 100px; padding-bottom: 60px; }
+        input[readonly] { background-color: #e9ecef !important; color: #6c757d; cursor: not-allowed; }
+        /* 비밀번호 일치 메시지 스타일 */
+        .pw-msg { font-size: 0.875rem; margin-top: 5px; font-weight: 600; }
     </style>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-
     <nav th:replace="~{fragments/header :: main-header}"></nav>
 
     <div class="edit-container w-100">
@@ -32,28 +25,51 @@
             </div>
 
             <div class="card-body p-4 p-md-5">
-                <form th:action="@{/members/edit}" method="post">
+                
+                <form th:action="@{/members/edit}" th:object="${memberUpdateDto}" method="post" onsubmit="return validateForm()">
                     
-                    <div class="mb-4">
+                    <div th:if="${errorMessage}" class="alert alert-danger text-center" role="alert">
+                        <span th:text="${errorMessage}"></span>
+                    </div>
+
+                    <div class="mb-3">
                         <label for="loginId" class="form-label fw-bold">아이디</label>
-                        <input type="text" class="form-control bg-light" id="loginId" 
-                               th:value="${member.loginId}" readonly>
-                        <div class="form-text text-muted">아이디는 변경할 수 없습니다.</div>
+                        <input type="text" class="form-control" id="loginId" th:field="*{loginId}" readonly>
                     </div>
 
-                    <div class="mb-4">
+                    <div class="mb-3">
                         <label for="name" class="form-label fw-bold">이름</label>
-                        <input type="text" class="form-control" id="name" name="name" 
-                               th:value="${member.name}" required>
+                        <input type="text" class="form-control" id="name" th:field="*{name}" readonly>
                     </div>
 
                     <div class="mb-4">
-                        <label for="password" class="form-label fw-bold">비밀번호 변경</label>
-                        <input type="password" class="form-control" id="password" name="password" 
-                               placeholder="변경을 원하실 경우에만 입력하세요">
+                        <label for="phone" class="form-label fw-bold">전화번호</label>
+                        <input type="text" class="form-control" id="phone" th:field="*{phone}" 
+                               placeholder="010-1234-5678" maxlength="13" oninput="autoHyphen(this)">
                     </div>
 
                     <hr class="my-4">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-shield-lock me-2"></i>비밀번호 변경</h5>
+                    <p class="text-muted small mb-3">비밀번호를 변경하려면 아래 정보를 모두 입력해주세요.</p>
+
+                    <div class="mb-3">
+                        <label for="currentPassword" class="form-label">현재 비밀번호</label>
+                        <input type="password" class="form-control" id="currentPassword" th:field="*{currentPassword}" 
+                               placeholder="현재 사용 중인 비밀번호">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label">새 비밀번호</label>
+                        <input type="password" class="form-control" id="newPassword" th:field="*{newPassword}" 
+                               placeholder="변경할 비밀번호" oninput="checkPasswordMatch()">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="confirmPassword" class="form-label">새 비밀번호 확인</label>
+                        <input type="password" class="form-control" id="confirmPassword" th:field="*{confirmPassword}" 
+                               placeholder="변경할 비밀번호 재입력" oninput="checkPasswordMatch()">
+                        <span id="pwMatchMsg" class="pw-msg"></span>
+                    </div>
 
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary btn-lg fw-bold">수정 완료</button>
@@ -61,13 +77,11 @@
                     </div>
 
                     <div class="text-end mt-4">
-                        <span class="text-muted small me-1">더 이상 이용하지 않으시나요?</span>
-                         <a href="#" class="text-danger text-decoration-none small fw-bold" 
-                            onclick="if(confirm('정말 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) location.href='/members/delete'">
-                            회원 탈퇴 &gt;
-                         </a>
+                        <a href="#" class="text-danger text-decoration-none small fw-bold" 
+                           onclick="if(confirm('정말 탈퇴하시겠습니까?\n탈퇴 시 모든 데이터가 삭제됩니다.')) location.href='/members/delete'">
+                           회원 탈퇴 &gt;
+                        </a>
                     </div>
-                    
                 </form>
             </div>
         </div>
@@ -76,5 +90,80 @@
     <footer th:replace="~{fragments/footer :: footer}" class="mt-auto"></footer>
     <th:block th:replace="~{common/common :: common-js}"></th:block>
 
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      window.onload = function() {
+          // 서버 에러 메시지 알림
+          var errorMessage = /*[[${errorMessage}]]*/ null;
+          if (errorMessage) {
+              alert(errorMessage);
+          }
+      };
+
+      // 1. 전화번호 자동 하이픈
+      const autoHyphen = (target) => {
+          target.value = target.value
+              .replace(/[^0-9]/g, '')
+              .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
+              .replace(/(\-{1,2})$/g, "");
+      }
+
+      // 2. 비밀번호 일치 확인 (newPassword vs confirmPassword)
+      function checkPasswordMatch() {
+          // ✅ 변수명 newPassword, confirmPassword 사용
+          const newPw = document.getElementById('newPassword').value;
+          const confirmPw = document.getElementById('confirmPassword').value;
+          const msgBox = document.getElementById('pwMatchMsg');
+
+          if(newPw === "" && confirmPw === "") {
+              msgBox.textContent = "";
+              return;
+          }
+
+          if (newPw === confirmPw) {
+              msgBox.textContent = "비밀번호가 일치합니다.";
+              msgBox.className = "pw-msg text-success";
+          } else {
+              msgBox.textContent = "비밀번호가 일치하지 않습니다.";
+              msgBox.className = "pw-msg text-danger";
+          }
+      }
+
+      // 3. 폼 제출 전 유효성 검사
+      function validateForm() {
+          // ✅ 변수명 currentPassword, newPassword, confirmPassword 사용
+          const currentPw = document.getElementById('currentPassword').value;
+          const newPw = document.getElementById('newPassword').value;
+          const confirmPw = document.getElementById('confirmPassword').value;
+          
+          // 새 비밀번호 칸에 뭔가 입력했을 때만 검사
+          if (newPw.length > 0) {
+              
+              // 현재 비밀번호 입력 필수
+              if (currentPw === "") {
+                  alert("정보를 수정하려면 현재 비밀번호를 입력해주세요.");
+                  document.getElementById('currentPassword').focus();
+                  return false;
+              }
+
+              // 길이 체크
+              if (newPw.length < 8 || newPw.length > 16) {
+                  alert("새 비밀번호는 8자 이상 16자 이하로 입력해주세요.");
+                  document.getElementById('newPassword').focus();
+                  return false;
+              }
+
+              // 일치 체크
+              if (newPw !== confirmPw) {
+                  alert("새 비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
+                  document.getElementById('confirmPassword').focus();
+                  return false;
+              }
+          }
+          
+          return true; // 통과 시 전송
+      }
+      /*]]>*/
+    </script>
 </body>
 </html>

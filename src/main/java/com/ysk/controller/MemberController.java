@@ -1,5 +1,7 @@
 package com.ysk.controller;
 
+import org.springframework.security.access.method.P;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,13 +11,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ysk.config.auth.CustomUserDetails;
 import com.ysk.dto.MemberSaveRequestDto;
+import com.ysk.dto.MemberUpdateDto;
 import com.ysk.entity.Member;
 import com.ysk.service.MemberService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @Controller
@@ -98,19 +106,54 @@ public class MemberController {
 
   // 정보수정 페이지로 이동
   @GetMapping("/edit")
-  public String goEditPage(Model model) {
-    // 로그인 된 아이디 가져오기
-    String loginId = SecurityContextHolder.getContext().getAuthentication().getName();
+  public String goEditPage(Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    
+    // 로그인 체크 (세션 만료 시 로그인 페이지로)
+    if(customUserDetails == null){
+      return "redirect:/members/login";
+    }
+    
+    // CustomUserDetails 안에 있는 Member 정보 가져오기
+    Member member = customUserDetails.getMember();
 
-    // 회원 정보 가져오기
-    Member member = memberService.findByLoginId(loginId);
+    MemberUpdateDto updateDto = new MemberUpdateDto();
+    updateDto.setLoginId(member.getLoginId());
+    updateDto.setName(member.getName());
+    updateDto.setPhone(member.getPhone());
 
-    // 모델에 저장
-    model.addAttribute("member", member);
+    model.addAttribute("memberUpdateDto", updateDto);
 
     return "members/edit";
   }
   
+  @PostMapping("/edit")
+  public String edit(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+    MemberUpdateDto updateDto, Model model, HttpServletRequest request) {
+      
+      try {
+        memberService.updateMember(customUserDetails.getMember().getMemberSeq(), updateDto);
+        
+        HttpSession session = request.getSession(false);
+        if(session != null){
+          session.invalidate();
+        }
+        
+        // 서비스 호출 (updateDto 안에 phone, newPassword 등이 들어있음)
+        model.addAttribute("message", "정보가 변경되었습니다. 다시 로그인해주세요.");
+        model.addAttribute("searchUrl", "/login");
+            
+        // 3. message.html 템플릿 호출
+        return "common/message";
+
+      } catch (Exception e) {
+        // 예외 발생 시 (비밀번호 불일치 등)
+        model.addAttribute("errorMessage", e.getMessage());
+        model.addAttribute("memberUpdateDto", updateDto); 
+        return "members/edit";
+      }
+  }
+  
+
 
 
 
