@@ -19,10 +19,9 @@ public class MemberService {
   private final MemberRepository memberRepository;
   private final PasswordEncoder passwordEncoder;
 
+
   /**
    * 회원가입
-   * @param memberDto
-   * @return 회원 Seq
    */
   @Transactional
   public Long join(MemberSaveRequestDto memberDto) {
@@ -84,7 +83,16 @@ public class MemberService {
     }
   }
 
-
-
+  /**
+   * 회원 탈퇴
+   */
+  @Transactional
+  public void withdraw(Long memberSeq) {
+    Member member = memberRepository.findById(memberSeq)
+        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+      
+    // JPA의 삭제 매직 (DELETE 쿼리 나감)
+  memberRepository.delete(member);
+  }
 
 }

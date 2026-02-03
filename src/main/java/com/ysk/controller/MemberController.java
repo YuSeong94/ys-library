@@ -35,7 +35,6 @@ public class MemberController {
 
   /**
    * 로그인 페이지 이동
-   * @return
    */
   @GetMapping("/login")
   public String goLoginPage(@RequestParam(value = "error", required = false) String error,
@@ -60,7 +59,6 @@ public class MemberController {
 
   /**
    * 회원가입 페이지 이동
-   * @return
    */
   @GetMapping("/join")
   public String goJoinPage(Model model){
@@ -71,10 +69,6 @@ public class MemberController {
 
   /**
    * 회원가입 
-   * @param memberDto
-   * @param bindingResult
-   * @param model
-   * @return
    */
   @PostMapping("/new")
   public String join(@Valid MemberSaveRequestDto memberDto, BindingResult bindingResult, Model model) {
@@ -126,6 +120,9 @@ public class MemberController {
     return "members/edit";
   }
   
+  /**
+   * 회원 정보 수정
+   */
   @PostMapping("/edit")
   public String edit(@AuthenticationPrincipal CustomUserDetails customUserDetails,
     MemberUpdateDto updateDto, Model model, HttpServletRequest request) {
@@ -153,6 +150,28 @@ public class MemberController {
       }
   }
   
+  /**
+   * 회원 탈퇴 처리
+   */
+  @GetMapping("/delete")
+  public String deleteMember(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+      HttpServletRequest request, Model model) {
+      
+      // 1. 회원 삭제
+      memberService.withdraw(customUserDetails.getMember().getMemberSeq());
+
+      // 2. 세션 삭제 (로그아웃)
+      HttpSession session = request.getSession(false);
+      if (session != null) {
+          session.invalidate();
+      }
+
+      // 3. 메시지 띄우고 메인으로 이동
+      model.addAttribute("message", "회원 탈퇴가 완료되었습니다. 그동안 이용해주셔서 감사합니다.");
+      model.addAttribute("searchUrl", "/");
+      
+      return "common/message";
+  }
 
 
 
