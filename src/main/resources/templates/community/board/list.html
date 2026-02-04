@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}"> <th:block layout:fragment="css">
+    <style>
+        .board-container { max-width: 900px; margin: 50px auto; }
+    </style>
+</th:block>
+
+<div layout:fragment="content" class="container board-container">
+    
+    <h2>📋 게시판</h2>
+    <hr>
+
+    <table class="table table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성일</th>
+                <th>조회</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td><a href="#">레이아웃 적용 성공인가요?</a></td>
+                <td>관리자</td>
+                <td>2024-02-04</td>
+                <td>10</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="text-end mt-3">
+        <a href="/community/board/write" class="btn btn-primary">글쓰기</a>
+    </div>
+
+</div>
+
+<th:block layout:fragment="script">
+    <script>
+        console.log("게시판 목록 페이지입니다.");
+    </script>
+</th:block>
+
+</html>

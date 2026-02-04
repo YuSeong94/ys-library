@@ -21,7 +21,11 @@ dependencies {
   testImplementation 'org.springframework.security:spring-security-test'
   testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	
-  // 타임리프에서 스프링 시큐리티 기능을 사용하기 위한 라이브러리
+
+  // Thymeleaf
+  // 스프링 시큐리티 기능을 사용하기 위한 라이브러리
   implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+  // 레이아웃 다이얼렉트
+  implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
 }

@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
 public abstract class BaseEntity {
 
     @Column(updatable = false)
-    private LocalDateTime regDatetime;
+    private LocalDateTime regDatetime;  // 등록일자
 
-    private LocalDateTime modDatetime;
+    private LocalDateTime modDatetime;  // 수정일자
 
     // Insert 되기 직전에 실행
     @PrePersist
