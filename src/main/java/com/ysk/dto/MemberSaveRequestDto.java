@@ -9,8 +9,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+
 @Setter
 @Getter
+// 회원가입 DTO
 public class MemberSaveRequestDto {
   
   @NotBlank(message = "아이디는 필수 입력 값입니다.")

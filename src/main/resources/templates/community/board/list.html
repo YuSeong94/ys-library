@@ -23,12 +23,24 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td><a href="#">레이아웃 적용 성공인가요?</a></td>
-                <td>관리자</td>
-                <td>2024-02-04</td>
-                <td>10</td>
+            <tr th:if="${#lists.isEmpty(boardList)}">
+                <td colspan="5" class="text-center py-4">게시글이 없습니다.</td>
+            </tr>
+
+            <tr th:each="board : ${boardList}">
+                <td th:text="${board.boardSeq}">1</td>
+                
+                <td>
+                    <a href="#" th:text="${board.title}" class="text-decoration-none text-dark">
+                        제목입니다
+                    </a>
+                </td>
+                
+                <td th:text="${board.writer}">홍길동</td>
+                
+                <td th:text="${board.regDate}">2024-02-05</td>
+                
+                <td th:text="${board.viewCount}">0</td>
             </tr>
         </tbody>
     </table>

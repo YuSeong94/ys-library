@@ -18,7 +18,7 @@ public class Board extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_seq")
-    private Long id;
+    private Long boardSeq;
 
     @Column(nullable = false, length = 100)
     private String title;
@@ -37,13 +37,13 @@ public class Board extends BaseEntity {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_seq") // DB 컬럼명
-    private Member member;
+    private Member memberSeq;
 
     // 생성자 (서비스 계층에서 쉽게 만들기 위해)
-    public Board(String title, String content, Member member) {
+    public Board(String title, String content, Member memberSeq) {
         this.title = title;
         this.content = content;
-        this.member = member;
+        this.memberSeq = memberSeq;
     }
 
     // 수정 메서드 (Dirty Checking용)

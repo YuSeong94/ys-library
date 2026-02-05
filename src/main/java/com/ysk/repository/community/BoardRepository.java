@@ -12,4 +12,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     // Pageable(페이지 정보)을 주면, Page<Board>(페이징된 결과)를 돌려줘라
     Page<Board> findAll(Pageable pageable);
 
+    
+
+
 }
