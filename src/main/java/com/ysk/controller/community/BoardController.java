@@ -39,10 +39,9 @@ public class BoardController {
     
     Page<BoardResponseDto> list = boardService.getBoardList(pageable);
 
-    int nowPage = list.getPageable().getPageNumber() + 1; // 현재 페이지 (1부터 시작)
-    int totalPages = list.getTotalPages(); // 전체 페이지 수 (예: 40페이지)
-        
-    int pageBlock = 10; // 📢 블록의 크기 (1~10, 11~20 처럼 10개씩 보여줌)
+    int nowPage = list.getPageable().getPageNumber() + 1; // 현재 페이지
+    int totalPages = list.getTotalPages(); // 전체 페이지 수
+    int pageBlock = 10; // 블록 크기
 
     // 1. 시작 페이지 계산
     // (현재페이지-1) / 블록크기 * 블록크기 + 1
@@ -61,15 +60,28 @@ public class BoardController {
         endPage = totalPages;
     }
 
+    // 이전/다음 '구간' 계산 로직
+        
+    // [<<] 이전 블록 가기: 현재 시작 페이지가 1보다 크면 있음
+    // 예: 11페이지라면 -> 10페이지로 이동 (1~10구간의 마지막)
+    boolean hasPrevBlock = startPage > 1;
+    int prevBlockPage = startPage - 1; // 11 -> 10, 21 -> 20
+
+    // [>>] 다음 블록 가기: 현재 끝 페이지가 전체 페이지보다 작으면 있음
+    // 예: 10페이지라면 -> 11페이지로 이동 (11~20구간의 시작)
+    boolean hasNextBlock = endPage < totalPages;
+    int nextBlockPage = endPage + 1; // 10 -> 11, 20 -> 21
+
     model.addAttribute("list", list);
     model.addAttribute("nowPage", nowPage);
     model.addAttribute("startPage", startPage);
     model.addAttribute("endPage", endPage);
+    model.addAttribute("hasPrevBlock", hasPrevBlock);
+    model.addAttribute("prevBlockPage", prevBlockPage);
+    model.addAttribute("hasNextBlock", hasNextBlock);
+    model.addAttribute("nextBlockPage", nextBlockPage);
 
     return "community/board/list";
   }
-
-
-
 
 }
