@@ -10,6 +10,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ysk.dto.community.BoardResponseDto;
 import com.ysk.entity.Member;
@@ -35,9 +36,11 @@ public class BoardController {
    */
   @GetMapping("list")
   public String list(Model model, @PageableDefault(page = 0, size = 10, sort = "boardSeq",
-    direction = Sort.Direction.DESC) Pageable pageable) {
+    direction = Sort.Direction.DESC) Pageable pageable,
+    @RequestParam(required = false) String searchType,
+    @RequestParam(required = false) String keyword){
     
-    Page<BoardResponseDto> list = boardService.getBoardList(pageable);
+    Page<BoardResponseDto> list = boardService.getBoardList(searchType, keyword, pageable);
 
     int nowPage = list.getPageable().getPageNumber() + 1; // 현재 페이지
     int totalPages = list.getTotalPages(); // 전체 페이지 수
@@ -80,6 +83,8 @@ public class BoardController {
     model.addAttribute("prevBlockPage", prevBlockPage);
     model.addAttribute("hasNextBlock", hasNextBlock);
     model.addAttribute("nextBlockPage", nextBlockPage);
+    model.addAttribute("searchType", searchType);
+    model.addAttribute("keyword", keyword);
 
     return "community/board/list";
   }
