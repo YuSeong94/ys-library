@@ -1,8 +1,5 @@
 package com.ysk.controller.community;
 
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -13,15 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ysk.dto.community.BoardResponseDto;
-import com.ysk.entity.Member;
-import com.ysk.entity.community.Board;
-import com.ysk.repository.MemberRepository;
-import com.ysk.repository.community.BoardRepository;
+import com.ysk.dto.community.BoardWriteDto;
 import com.ysk.service.community.BoardService;
 
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @Controller
@@ -87,6 +84,23 @@ public class BoardController {
     model.addAttribute("keyword", keyword);
 
     return "community/board/list";
+  }
+
+  /**
+   * 게시글 작성 페이지로 이동
+   */
+  @GetMapping("/write")
+  public String goWriteForm(){
+    return "community/board/write";
+  }
+
+  /**
+   * 게시글 저장
+   */
+  @PostMapping("/write")
+  public String writeSave(BoardWriteDto boardWriteDto) {
+    boardService.writeSave(boardWriteDto);
+    return "redirect:/community/board/list";
   }
 
 }

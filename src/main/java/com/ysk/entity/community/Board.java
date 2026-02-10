@@ -1,17 +1,16 @@
-package com.ysk.entity.community; // ✅ 요청하신 패키지 경로
-
+package com.ysk.entity.community; 
 
 import com.ysk.entity.BaseEntity;
 import com.ysk.entity.Member;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
-@Getter @Setter
+@Getter 
+@Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Board extends BaseEntity {
 

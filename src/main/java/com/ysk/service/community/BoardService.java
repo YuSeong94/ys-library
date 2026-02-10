@@ -6,11 +6,16 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ysk.dto.community.BoardResponseDto;
+import com.ysk.dto.community.BoardWriteDto;
+import com.ysk.entity.Member;
 import com.ysk.entity.community.Board;
+import com.ysk.repository.MemberRepository;
 import com.ysk.repository.community.BoardRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +25,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BoardService {
 
+  private final MemberRepository memberRepository;
   private final BoardRepository boardRepository;
+
 
   /**
    * 게시글 목록 조회 
@@ -53,5 +60,27 @@ public class BoardService {
     }
     return boardPage.map(BoardResponseDto::new);
     }
+  
+  /**
+   * 게시글 저장
+   */
+  public void writeSave(BoardWriteDto boardWriteDto) {
+    
+    // Spring Security 가 세션에서 로그인한 사용자의 ID를 가지고 온다.
+    String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+
+    // 가져온 ID로 DB에서 실제 Member 엔티티를 조회한다.
+    Member member = memberRepository.findByLoginId(currentUsername)
+                      .orElseThrow(() -> new UsernameNotFoundException("로그인된 사용자 정보를 찾을 수 없습니다."));
+
+    // DTO를 Entity로 변환
+    Board board = boardWriteDto.toEntity();
+
+    // 작성자(member) 연관관계 설정
+    board.setMemberSeq(member);
+
+    // 저장
+    boardRepository.save(board);
+  }
 
 }
