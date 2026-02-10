@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+<div layout:fragment="content" class="container board-container">
+  <link rel="stylesheet" th:href="@{/css/community/list.css}">
+  <div class="board-card d-flex flex-column">
+
+    <h2>🖊️ 게시글 작성</h2>
+    <hr>
+
+    <form action="/community/board/write" method="post" class="d-flex flex-column flex-grow-1">
+        
+      <div class="mb-3">
+        <label for="title" class="form-label fw-bold">제목</label>
+        <input type="text" class="form-control" id="title" name="title" 
+                placeholder="제목을 입력하세요" required>
+      </div>
+
+      <div class="mb-4 d-flex flex-column flex-grow-1">
+        <label for="content" class="form-label fw-bold">내용</label>
+          
+        <textarea class="form-control flex-grow-1" id="content" name="content" 
+                  placeholder="내용을 자유롭게 작성해주세요" required>
+        </textarea> 
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <a href="/community/board/list" class="btn btn-secondary me-2">취소</a>
+        <button type="submit" class="btn btn-primary">등록하기</button>
+      </div>
+    </form>
+  </div>
+</div>
+</html>

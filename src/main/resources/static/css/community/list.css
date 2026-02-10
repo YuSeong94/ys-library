@@ -20,6 +20,7 @@ body {
   padding: 40px;
   margin-top: 50px;
   margin-bottom: 50px;
+  min-height: 1000px;
 }
 
 /* ✅ 테이블 디자인 디테일 잡기 */

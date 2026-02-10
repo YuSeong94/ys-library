@@ -28,7 +28,6 @@ public class BoardService {
   private final MemberRepository memberRepository;
   private final BoardRepository boardRepository;
 
-
   /**
    * 게시글 목록 조회 
    * 페이징 적용
