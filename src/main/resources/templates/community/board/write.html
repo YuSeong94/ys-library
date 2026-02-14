@@ -3,34 +3,58 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 
+<th:block layout:fragment="css">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/community/list.css}">
+</th:block>
+
+<th:block layout:fragment="script">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#content').summernote({
+                height: 400,            // 에디터 높이
+                lang: 'ko-KR',          // 언어 설정
+                placeholder: '내용을 입력해주세요',
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['codeview', 'help']]
+                ]
+            });
+        });
+    </script>
+</th:block>
+
 <div layout:fragment="content" class="container board-container">
-  <link rel="stylesheet" th:href="@{/css/community/list.css}">
-  <div class="board-card d-flex flex-column">
-
-    <h2>🖊️ 게시글 작성</h2>
-    <hr>
-
-    <form action="/community/board/write" method="post" class="d-flex flex-column flex-grow-1">
+    <div class="board-card">
+        <h2>🖊️ 게시글 작성</h2>
+        <hr>
         
-      <div class="mb-3">
-        <label for="title" class="form-label fw-bold">제목</label>
-        <input type="text" class="form-control" id="title" name="title" 
-                placeholder="제목을 입력하세요" required>
-      </div>
+        <form th:action="@{/community/board/write}" method="post">
+            <div class="mb-3">
+                <label for="title" class="form-label fw-bold">제목</label>
+                <input type="text" class="form-control" id="title" name="title" required>
+            </div>
 
-      <div class="mb-4 d-flex flex-column flex-grow-1">
-        <label for="content" class="form-label fw-bold">내용</label>
-          
-        <textarea class="form-control flex-grow-1" id="content" name="content" 
-                  placeholder="내용을 자유롭게 작성해주세요" required>
-        </textarea> 
-      </div>
+            <div class="mb-4">
+                <label for="content" class="form-label fw-bold">내용</label>
+                <textarea id="content" name="content"></textarea> 
+            </div>
 
-      <div class="d-flex justify-content-end">
-        <a href="/community/board/list" class="btn btn-secondary me-2">취소</a>
-        <button type="submit" class="btn btn-primary">등록하기</button>
-      </div>
-    </form>
-  </div>
+            <div class="d-flex justify-content-end">
+                <a href="/community/board/list" class="btn btn-secondary me-2">취소</a>
+                <button type="submit" class="btn   btn-primary">등록하기</button>
+            </div>
+        </form>
+    </div>
 </div>
 </html>

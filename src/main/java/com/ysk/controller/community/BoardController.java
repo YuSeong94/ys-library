@@ -100,6 +100,9 @@ public class BoardController {
   @PostMapping("/write")
   public String writeSave(BoardWriteDto boardWriteDto) {
     boardService.writeSave(boardWriteDto);
+
+    System.out.println("Controller : " + boardWriteDto);
+
     return "redirect:/community/board/list";
   }
 

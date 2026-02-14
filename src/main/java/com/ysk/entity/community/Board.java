@@ -23,7 +23,7 @@ public class Board extends BaseEntity {
     private String title;
 
     @Lob // 대용량 텍스트 저장
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
 
     @Column(name = "view_count")
