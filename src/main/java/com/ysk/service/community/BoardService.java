@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ysk.dto.community.BoardDetailDto;
 import com.ysk.dto.community.BoardResponseDto;
 import com.ysk.dto.community.BoardWriteDto;
 import com.ysk.entity.Member;
@@ -81,5 +82,20 @@ public class BoardService {
     // 저장
     boardRepository.save(board);
   }
+
+  /**
+   * 게시글 상세 조회
+   */
+  public BoardDetailDto getBoardDetail(Long id) {
+    // 1. 게시글 찾기 (없으면 에러)
+    Board board = boardRepository.findById(id)
+                  .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. id=" + id));
+
+    // 2. 조회수 1 증가
+    board.increaseViewCount(); 
+
+    // 3. DTO로 변환해서 리턴
+    return BoardDetailDto.fromEntity(board);
+    }
 
 }

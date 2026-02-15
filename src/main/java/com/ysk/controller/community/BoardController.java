@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ysk.dto.community.BoardDetailDto;
 import com.ysk.dto.community.BoardResponseDto;
 import com.ysk.dto.community.BoardWriteDto;
 import com.ysk.service.community.BoardService;
@@ -16,6 +17,7 @@ import com.ysk.service.community.BoardService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -104,6 +106,20 @@ public class BoardController {
     System.out.println("Controller : " + boardWriteDto);
 
     return "redirect:/community/board/list";
+  }
+
+  /**
+   * 게시글 상세 페이지 이동
+   */
+  @GetMapping("/view/{id}")
+  public String view(@PathVariable Long id, Model model) {
+    // 서비스에서 상세 DTO를 가져옴
+    BoardDetailDto boardDetail = boardService.getBoardDetail(id);
+        
+    // 모델에 담아서 화면으로 보냄
+    model.addAttribute("board", boardDetail);
+        
+    return "community/board/view";
   }
 
 }
