@@ -52,29 +52,27 @@
         </div>
 
         <div class="board-content mb-5" th:utext="${board.content}">
-            <p>여기에 본문 내용이 HTML로 렌더링되어 나옵니다.</p>
+          <p>여기에 본문 내용이 HTML로 렌더링되어 나옵니다.</p>
         </div>
 
         <hr class="mb-4">
-
         <div class="d-flex justify-content-between">
             <a th:href="@{/community/board/list}" class="btn btn-secondary">
-                <i class="bi bi-list"></i> 목록
+              <i class="bi bi-list"></i> 목록
             </a>
 
             <div>
                 <a th:href="@{/community/board/modify/{id}(id=${board.id})}" class="btn btn-outline-primary me-2">
-                    <i class="bi bi-pencil"></i> 수정
+                  <i class="bi bi-pencil"></i> 수정
                 </a>
                 
-                <a th:href="@{/community/board/delete/{id}(id=${board.id})}" class="btn btn-outline-danger" 
-                   onclick="return confirm('정말 삭제하시겠습니까?');">
-                    <i class="bi bi-trash"></i> 삭제
+                <a th:href="@{/community/board/delete/{id}(id=${board.id})}" 
+                  class="btn btn-outline-danger" onclick="return confirm('정말 삭제하시겠습니까?');">
+                  <i class="bi bi-trash"></i> 삭제
                 </a>
             </div>
         </div>
 
     </div>
 </div>
-
 </html>

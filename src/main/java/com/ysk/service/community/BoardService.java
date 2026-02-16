@@ -98,4 +98,30 @@ public class BoardService {
     return BoardDetailDto.fromEntity(board);
     }
 
+  /**
+   * 게시글 삭제
+   */
+  public void delete(Long id) {
+      // 존재 여부 확인 후 삭제
+      Board board = boardRepository.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+        
+      // 삭제 실행 (DELETE FROM board WHERE board_seq = ?)
+      boardRepository.delete(board);
+  }
+  
+  /**
+   * 게시글 수정
+   */
+  public void update(Long id, BoardWriteDto boardWriteDto) {
+    // 1. 기존 글을 가져옵니다. (없으면 에러)
+    Board board = boardRepository.findById(id)
+                  .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+
+  // 2. 아까 만든 update 메서드로 내용만 쏙 바꿔치기 합니다.
+  board.update(boardWriteDto.getTitle(), boardWriteDto.getContent());
+  }
+
+
+
 }
