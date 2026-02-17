@@ -12,14 +12,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ysk.dto.community.BoardDetailDto;
 import com.ysk.dto.community.BoardResponseDto;
 import com.ysk.dto.community.BoardWriteDto;
+import com.ysk.entity.Member;
 import com.ysk.service.community.BoardService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 
@@ -103,8 +104,6 @@ public class BoardController {
   public String writeSave(BoardWriteDto boardWriteDto) {
     boardService.writeSave(boardWriteDto);
 
-    System.out.println("Controller : " + boardWriteDto);
-
     return "redirect:/community/board/list";
   }
 
@@ -113,10 +112,8 @@ public class BoardController {
    */
   @GetMapping("/view/{id}")
   public String view(@PathVariable Long id, Model model) {
-    // 서비스에서 상세 DTO를 가져옴
     BoardDetailDto boardDetail = boardService.getBoardDetail(id);
         
-    // 모델에 담아서 화면으로 보냄
     model.addAttribute("board", boardDetail);
         
     return "community/board/view";
@@ -126,45 +123,65 @@ public class BoardController {
    * 게시글 삭제 요청 처리
    */
   @GetMapping("/delete/{id}")
-  public String delete(@PathVariable Long id, Model model) {
-    // 1. 서비스 호출해서 글 삭제
-    boardService.delete(id);
+  public String delete(@PathVariable Long id, Model model, HttpSession session) {
+        
+  BoardDetailDto board = boardService.getBoardDetail(id);
+  Member loginMember = (Member) session.getAttribute("loginMember");
 
-    // 2. 알림창에 띄울 메세지와 이동할 주소를 Model에 담습니다.
-    model.addAttribute("message", "게시글이 삭제되었습니다.");
-    model.addAttribute("searchUrl", "/community/board/list");
-
-    // 3. 우리가 만든 알림창 전용 페이지(common/message)를 리턴합니다.
+  if (loginMember == null || !board.getWriterId().equals(loginMember.getMemberSeq())) {
+    model.addAttribute("message", "삭제 권한이 없습니다.");
+    model.addAttribute("searchUrl", "/community/board/view/" + id);
     return "common/message";
   }
 
-  /**
-   * 수정 페이지 이동 (기존 내용을 채워서 보여줌)
-    */
-  @GetMapping("/modify/{id}")
-  public String modifyForm(@PathVariable Long id, Model model) {
-    // 기존 상세 조회 로직 재활용 (DTO 가져오기)
-    // (조회수 증가는 안 시키고 싶다면, 조회수 증가 없는 메서드를 따로 파야 하지만 지금은 일단 재사용!)
-    BoardDetailDto boardDetail = boardService.getBoardDetail(id);
-      
-    model.addAttribute("board", boardDetail);
-      
-    return "community/board/modify"; // modify.html로 이동
+  boardService.delete(id);
+
+  model.addAttribute("message", "게시글이 삭제되었습니다.");
+  model.addAttribute("searchUrl", "/community/board/list");
+  return "common/message";
   }
 
   /**
-   * 수정 데이터 저장 (POST)
-    */
+   * 수정 페이지 이동
+   */
+  @GetMapping("/modify/{id}")
+  public String modifyForm(@PathVariable Long id, Model model, HttpSession session) {
+    BoardDetailDto boardDetail = boardService.getBoardDetail(id);
+      
+    Member loginMember = (Member)session.getAttribute("loginMember");
+
+    if (loginMember == null || !boardDetail.getWriterId().equals(loginMember.getMemberSeq())) {
+      model.addAttribute("message", "수정 권한이 없습니다.");
+      model.addAttribute("searchUrl", "/community/board/view/" + id); // 다시 상세 페이지로
+      return "common/message";
+    }
+
+    model.addAttribute("board", boardDetail);
+    return "community/board/modify";
+  }
+
+  /**
+   * 게시글 수정 기능
+   */
   @PostMapping("/modify/{id}")
-  public String modify(@PathVariable Long id, BoardWriteDto boardWriteDto, Model model) {
-    // 1. 서비스에서 업데이트 처리
+  public String modify(@PathVariable Long id, BoardWriteDto boardWriteDto, 
+                        Model model, HttpSession session) {
+    
+    // 게시글 정보 조회
+    BoardDetailDto board = boardService.getBoardDetail(id);
+    Member loginMember = (Member) session.getAttribute("loginMember");
+
+    if (loginMember == null || !board.getWriterId().equals(loginMember.getMemberSeq())) {
+      model.addAttribute("message", "수정 권한이 없습니다.");
+      model.addAttribute("searchUrl", "/community/board/view/" + id);
+      return "common/message";
+    }
+
     boardService.update(id, boardWriteDto);
-
-    // 2. "수정되었습니다" 알림창 띄우고 상세 페이지로 이동
+    
     model.addAttribute("message", "게시글이 수정되었습니다.");
-    model.addAttribute("searchUrl", "/community/board/view/" + id); // 상세 페이지로 이동
-
-    return "common/message"; // 아까 만든 알림창 페이지
+    model.addAttribute("searchUrl", "/community/board/view/" + id);
+    return "common/message";
   }
 
 
