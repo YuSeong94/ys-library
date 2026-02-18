@@ -17,9 +17,18 @@
     <script>
         $(document).ready(function() {
             $('#content').summernote({
-                height: 400,            // 에디터 높이
-                lang: 'ko-KR',          // 언어 설정
+                height: 400,
+                lang: 'ko-KR',
                 placeholder: '내용을 입력해주세요',
+                
+                allowedTags: ['p', 'div', 'iframe', 'img', 'br', 'b', 'u', 'i', 'span', 'a', 'h1', 'h2', 'h3', 'h4', 'ul', 'li', 'ol', 'table', 'tbody', 'tr', 'td', 'th', 'thead'],
+                
+                allowedAttributes: {
+                    'a': ['href', 'target'],
+                    'img': ['src', 'width', 'height', 'alt'],
+                    'iframe': ['src', 'width', 'height', 'frameborder', 'allow', 'allowfullscreen']
+                },
+
                 toolbar: [
                     ['style', ['style']],
                     ['font', ['bold', 'underline', 'clear']],

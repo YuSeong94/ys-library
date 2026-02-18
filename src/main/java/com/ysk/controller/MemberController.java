@@ -22,8 +22,6 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
 
 
 @Controller
@@ -172,11 +170,5 @@ public class MemberController {
       
       return "common/message";
   }
-
-
-
-
-
-
 
 }
