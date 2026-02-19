@@ -39,12 +39,12 @@ public class Reply extends BaseEntity {
     @JoinColumn(name = "member_seq", nullable = false)
     private Member member;
 
-    // 생성자 (서비스 계층에서 쉽게 만들기 위해)
-    public Reply(String content, Board board, Member member) {
-        this.content = content;
-        this.board = board;
-        this.member = member;
-    }
+    // // 생성자 (서비스 계층에서 쉽게 만들기 위해)
+    // public Reply(String content, Board board, Member member) {
+    //     this.content = content;
+    //     this.board = board;
+    //     this.member = member;
+    // }
 
     // 수정 메서드 (Dirty Checking용)
     public void update(String content) {

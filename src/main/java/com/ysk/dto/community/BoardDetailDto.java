@@ -12,18 +12,18 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor
 public class BoardDetailDto {
 
-    private Long id;            // 게시글 번호
+    private Long boardSeq;      // 게시글 번호
     private String title;       // 제목
     private String content;     // 본문 내용
     private String writer;      // 작성자 이름
-    private Long writerId;      // 작성자 회원번호 (수정/삭제 권한 체크)
+    private Long writerSeq;     // 작성자 회원번호 (수정/삭제 권한 체크)
     private int viewCount;      // 조회수
     private String regDate;     // 작성일
 
     // Entity -> DTO 변환
     public static BoardDetailDto fromEntity(Board board) {
         BoardDetailDto dto = new BoardDetailDto();
-        dto.id = board.getBoardSeq();
+        dto.boardSeq = board.getBoardSeq();
         dto.title = board.getTitle();
         dto.content = board.getContent();
         dto.viewCount = board.getViewCount();
@@ -31,7 +31,7 @@ public class BoardDetailDto {
         // 작성자 정보 (Member 엔티티 연결)
         if (board.getMemberSeq() != null) {
             dto.writer = board.getMemberSeq().getName(); // 이름
-            dto.writerId = board.getMemberSeq().getMemberSeq(); // PK (나중에 씀!)
+            dto.writerSeq = board.getMemberSeq().getMemberSeq(); // PK (나중에 씀!)
         }
 
         // 날짜 포맷

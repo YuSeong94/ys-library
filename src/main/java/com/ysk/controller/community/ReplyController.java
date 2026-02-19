@@ -44,8 +44,9 @@ public class ReplyController {
      * 2. 댓글 목록 불러오기 (GET)
      * 특정 게시글(boardSeq)에 달린 댓글들을 JSON 리스트로 반환합니다.
      */
+    // 💡 수정됨: name = "boardSeq" 명시!
     @GetMapping("/list/{boardSeq}")
-    public ResponseEntity<List<ReplyDto>> getReplies(@PathVariable("boardSeq") Long boardSeq) {
+    public ResponseEntity<List<ReplyDto>> getReplies(@PathVariable(name = "boardSeq") Long boardSeq) {
         List<ReplyDto> replies = replyService.getReplies(boardSeq);
         return ResponseEntity.ok(replies);
     }
@@ -54,8 +55,9 @@ public class ReplyController {
      * 3. 댓글 삭제 (DELETE)
      * 이중 보안: 세션의 사용자 PK와 댓글 작성자 PK를 Service에서 비교합니다.
      */
+    // 💡 수정됨: name = "replySeq" 명시!
     @DeleteMapping("/delete/{replySeq}")
-    public ResponseEntity<String> deleteReply(@PathVariable("replySeq") Long replySeq, HttpSession session) {
+    public ResponseEntity<String> deleteReply(@PathVariable(name = "replySeq") Long replySeq, HttpSession session) {
         Member loginMember = (Member) session.getAttribute("loginMember");
         
         if (loginMember == null) {

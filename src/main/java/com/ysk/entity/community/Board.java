@@ -38,12 +38,12 @@ public class Board extends BaseEntity {
     @JoinColumn(name = "member_seq") // DB 컬럼명
     private Member memberSeq;
 
-    // 생성자 (서비스 계층에서 쉽게 만들기 위해)
-    public Board(String title, String content, Member memberSeq) {
-      this.title = title;
-      this.content = content;
-      this.memberSeq = memberSeq;
-    }
+    // // 생성자 (서비스 계층에서 쉽게 만들기 위해)
+    // public Board(String title, String content, Member memberSeq) {
+    //   this.title = title;
+    //   this.content = content;
+    //   this.memberSeq = memberSeq;
+    // }
 
     // 수정 메서드 (Dirty Checking용)
     public void update(String title, String content) {

@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <title>Ys Library</title>
     
-    <th:block th:replace="~{common/common :: common-head}"></th:block>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
+    <th:block th:replace="~{common/common :: common-head}"></th:block>
     <th:block layout:fragment="css"></th:block>
 </head>
 <body class="d-flex flex-column min-vh-100">

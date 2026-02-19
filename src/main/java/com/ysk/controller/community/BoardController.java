@@ -37,8 +37,8 @@ public class BoardController {
   @GetMapping("list")
   public String list(Model model, @PageableDefault(page = 0, size = 10, sort = "boardSeq",
     direction = Sort.Direction.DESC) Pageable pageable,
-    @RequestParam(required = false) String searchType,
-    @RequestParam(required = false) String keyword){
+    @RequestParam(name = "searchType", required = false) String searchType,
+    @RequestParam(name = "keyword", required = false) String keyword){
     
     Page<BoardResponseDto> list = boardService.getBoardList(searchType, keyword, pageable);
 
@@ -110,9 +110,9 @@ public class BoardController {
   /**
    * 게시글 상세 페이지 이동
    */
-  @GetMapping("/view/{id}")
-  public String view(@PathVariable Long id, Model model) {
-    BoardDetailDto boardDetail = boardService.getBoardDetail(id);
+  @GetMapping("/view/{boardSeq}")
+  public String view(@PathVariable(name = "boardSeq") Long boardSeq, Model model) {
+    BoardDetailDto boardDetail = boardService.getBoardDetail(boardSeq);
         
     model.addAttribute("board", boardDetail);
         
@@ -122,19 +122,19 @@ public class BoardController {
   /**
    * 게시글 삭제 요청 처리
    */
-  @GetMapping("/delete/{id}")
-  public String delete(@PathVariable Long id, Model model, HttpSession session) {
+  @GetMapping("/delete/{boardSeq}")
+  public String delete(@PathVariable(name = "boardSeq") Long boardSeq, Model model, HttpSession session) {
         
-  BoardDetailDto board = boardService.getBoardDetail(id);
+  BoardDetailDto board = boardService.getBoardDetail(boardSeq);
   Member loginMember = (Member) session.getAttribute("loginMember");
 
-  if (loginMember == null || !board.getWriterId().equals(loginMember.getMemberSeq())) {
+  if (loginMember == null || !board.getWriterSeq().equals(loginMember.getMemberSeq())) {
     model.addAttribute("message", "삭제 권한이 없습니다.");
-    model.addAttribute("searchUrl", "/community/board/view/" + id);
+    model.addAttribute("searchUrl", "/community/board/view/" + boardSeq);
     return "common/message";
   }
 
-  boardService.delete(id);
+  boardService.delete(boardSeq);
 
   model.addAttribute("message", "게시글이 삭제되었습니다.");
   model.addAttribute("searchUrl", "/community/board/list");
@@ -144,15 +144,15 @@ public class BoardController {
   /**
    * 수정 페이지 이동
    */
-  @GetMapping("/modify/{id}")
-  public String modifyForm(@PathVariable Long id, Model model, HttpSession session) {
-    BoardDetailDto boardDetail = boardService.getBoardDetail(id);
+  @GetMapping("/modify/{boardSeq}")
+  public String modifyForm(@PathVariable(name = "boardSeq") Long boardSeq, Model model, HttpSession session) {
+    BoardDetailDto boardDetail = boardService.getBoardDetail(boardSeq);
       
     Member loginMember = (Member)session.getAttribute("loginMember");
 
-    if (loginMember == null || !boardDetail.getWriterId().equals(loginMember.getMemberSeq())) {
+    if (loginMember == null || !boardDetail.getWriterSeq().equals(loginMember.getMemberSeq())) {
       model.addAttribute("message", "수정 권한이 없습니다.");
-      model.addAttribute("searchUrl", "/community/board/view/" + id); // 다시 상세 페이지로
+      model.addAttribute("searchUrl", "/community/board/view/" + boardSeq); // 다시 상세 페이지로
       return "common/message";
     }
 
@@ -163,28 +163,25 @@ public class BoardController {
   /**
    * 게시글 수정 기능
    */
-  @PostMapping("/modify/{id}")
-  public String modify(@PathVariable Long id, BoardWriteDto boardWriteDto, 
+  @PostMapping("/modify/{boardSeq}")
+  public String modify(@PathVariable(name = "boardSeq") Long boardSeq, BoardWriteDto boardWriteDto, 
                         Model model, HttpSession session) {
     
     // 게시글 정보 조회
-    BoardDetailDto board = boardService.getBoardDetail(id);
+    BoardDetailDto board = boardService.getBoardDetail(boardSeq);
     Member loginMember = (Member) session.getAttribute("loginMember");
 
-    if (loginMember == null || !board.getWriterId().equals(loginMember.getMemberSeq())) {
+    if (loginMember == null || !board.getWriterSeq().equals(loginMember.getMemberSeq())) {
       model.addAttribute("message", "수정 권한이 없습니다.");
-      model.addAttribute("searchUrl", "/community/board/view/" + id);
+      model.addAttribute("searchUrl", "/community/board/view/" + boardSeq);
       return "common/message";
     }
 
-    boardService.update(id, boardWriteDto);
+    boardService.update(boardSeq, boardWriteDto);
     
     model.addAttribute("message", "게시글이 수정되었습니다.");
-    model.addAttribute("searchUrl", "/community/board/view/" + id);
+    model.addAttribute("searchUrl", "/community/board/view/" + boardSeq);
     return "common/message";
   }
-
-
-
 
 }
