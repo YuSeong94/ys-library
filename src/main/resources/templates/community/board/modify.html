@@ -16,6 +16,12 @@
             $('#content').summernote({
                 height: 400,
                 lang: 'ko-KR',
+                placeholder: '내용을 입력해주세요',
+                
+                // ⭐ 핵심: 수정 시 기존에 들어있던 iframe(유튜브)이 삭제되지 않게 방어!
+                codeviewFilter: false,
+                codeviewIframeFilter: false,
+
                 toolbar: [
                     ['style', ['style']],
                     ['font', ['bold', 'underline', 'clear']],
@@ -24,7 +30,14 @@
                     ['table', ['table']],
                     ['insert', ['link', 'picture', 'video']],
                     ['view', ['codeview', 'help']]
-                ]
+                ],
+                callbacks: {
+                    onPaste: function (e) {
+                        var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                        e.preventDefault();
+                        document.execCommand('insertText', false, bufferText);
+                    }
+                }
             });
         });
     </script>
@@ -35,7 +48,7 @@
         <h2>✏️ 게시글 수정</h2>
         <hr>
         
-        <form th:action="@{/community/board/modify/{id}(id=${board.id})}" method="post">
+        <form th:action="@{/community/board/modify/{boardSeq}(boardSeq=${board.boardSeq})}" method="post">
             
             <div class="mb-3">
                 <label for="title" class="form-label fw-bold">제목</label>
@@ -49,7 +62,7 @@
             </div>
 
             <div class="d-flex justify-content-end">
-                <a th:href="@{/community/board/view/{id}(id=${board.id})}" class="btn btn-secondary me-2">취소</a>
+                <a th:href="@{/community/board/view/{boardSeq}(boardSeq=${board.boardSeq})}" class="btn btn-secondary me-2">취소</a>
                 <button type="submit" class="btn btn-warning">수정 완료</button>
             </div>
         </form>

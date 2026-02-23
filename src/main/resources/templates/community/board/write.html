@@ -10,24 +10,20 @@
 
 <th:block layout:fragment="script">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
 
     <script>
         $(document).ready(function() {
+            // ⭐ 에디터 설정은 딱 한 번만 호출합니다!
             $('#content').summernote({
                 height: 400,
                 lang: 'ko-KR',
                 placeholder: '내용을 입력해주세요',
                 
-                allowedTags: ['p', 'div', 'iframe', 'img', 'br', 'b', 'u', 'i', 'span', 'a', 'h1', 'h2', 'h3', 'h4', 'ul', 'li', 'ol', 'table', 'tbody', 'tr', 'td', 'th', 'thead'],
-                
-                allowedAttributes: {
-                    'a': ['href', 'target'],
-                    'img': ['src', 'width', 'height', 'alt'],
-                    'iframe': ['src', 'width', 'height', 'frameborder', 'allow', 'allowfullscreen']
-                },
+                // 유튜브 영상(iframe)이 사라지지 않게 하는 핵심 보안 설정
+                codeviewFilter: false,
+                codeviewIframeFilter: false, // 💡 false여야 유튜브 iframe이 허용됩니다.
 
                 toolbar: [
                     ['style', ['style']],
@@ -35,9 +31,21 @@
                     ['color', ['color']],
                     ['para', ['ul', 'ol', 'paragraph']],
                     ['table', ['table']],
-                    ['insert', ['link', 'picture', 'video']],
+                    ['insert', ['link', 'picture', 'video']], 
                     ['view', ['codeview', 'help']]
-                ]
+                ],
+
+                callbacks: {
+                    onPaste: function (e) {
+                        // 붙여넣기 시 텍스트만 깔끔하게 들어가도록 처리
+                        var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                        e.preventDefault();
+                        document.execCommand('insertText', false, bufferText);
+                    },
+                    onInit: function() {
+                        console.log('Summernote is initialized');
+                    }
+                }
             });
         });
     </script>
