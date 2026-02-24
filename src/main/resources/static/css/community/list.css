@@ -48,19 +48,6 @@ body {
     padding-left: 20px; /* 제목이 너무 딱 붙지 않게 */
 }
 
-.new-badge {
-  display: inline-block;      /* 박스 형태 유지를 위해 */
-  background-color: #dc3545;  /* 빨간색 배경 (Bootstrap Danger 색상) */
-  color: white;               /* 글자색 흰색 */
-  font-size: 10px;            /* 글자 크기 작게 */
-  font-weight: bold;          /* 글자 굵게 */
-  padding: 2px 5px;           /* 안쪽 여백 (위아래 2px, 좌우 5px) */
-  border-radius: 4px;         /* 모서리 살짝 둥글게 */
-  margin-left: 5px;           /* 제목과의 간격 */
-  vertical-align: text-top;   /* 텍스트 높이보다 살짝 위로 */
-  line-height: 1;             /* 줄 높이 타이트하게 */
-}
-
 .pagination-area {
   margin-top: 60px;
   margin-bottom: 15px;
@@ -81,4 +68,26 @@ body {
 .page-link {
   color: #333;           /* 글자색 진하게 */
   box-shadow: none;      /* 클릭했을 때 파란 테두리 제거 */
+}
+
+/* 댓글 수 스타일 */
+.reply-count-badge {
+    color: #e74c3c;      /* 약간 강렬한 빨간색 */
+    font-weight: 600;    /* 살짝 두껍게 */
+    font-size: 0.85rem;  /* 제목보다 조금 작게 */
+    margin-left: 3px;    /* 제목과 간격 */
+    vertical-align: middle;
+}
+
+/* 신규 배지 */
+.new-badge {
+    background-color: #ff4d4d;
+    color: white;
+    font-size: 0.65rem;
+    font-weight: bold;
+    padding: 1px 4px;
+    border-radius: 2px;
+    margin-left: 5px;
+    vertical-align: middle;
+    text-transform: uppercase;
 }

@@ -42,13 +42,18 @@
               <td th:text="${board.boardSeq}">1</td>
                 
               <td style="text-align: left; padding-left: 20px;">
-                <a th:href="@{/community/board/view/{id}(id=${board.boardSeq})}" 
-                  th:text="${board.title}" 
-                  class="text-decoration-none text-dark">
-                    게시글 제목
-                </a>
+                  <a th:href="@{/community/board/view/{id}(id=${board.boardSeq})}" 
+                    th:text="${board.title}" 
+                    class="text-decoration-none text-dark">
+                      게시글 제목
+                  </a>
 
-                <span th:if="${board.newArticle}" class="new-badge">N</span>
+                  <span th:if="${board.replyCount > 0}" 
+                        th:text="'[' + ${board.replyCount} + ']'" 
+                        class="reply-count-badge">
+                  </span>
+
+                  <span th:if="${board.newArticle}" class="new-badge">N</span>
               </td>
                 
               <td th:text="${board.writer}">홍길동</td>

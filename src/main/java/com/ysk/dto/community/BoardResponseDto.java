@@ -17,6 +17,7 @@ public class BoardResponseDto {
     private int viewCount;      // 조회수
     private String regDate;     // 작성일 (문자열로 예쁘게 변환)
     private boolean newArticle; // 새로운 게시글 판단
+    private int replyCount;     // 댓글 수
 
 
 
@@ -46,4 +47,10 @@ public class BoardResponseDto {
           this.newArticle = createDate.isEqual(today);
         }
     }
+
+    public BoardResponseDto(Board board, Long replyCount){
+      this(board);
+      this.replyCount = replyCount != null ? replyCount.intValue() : 0;
+    }
+
 }

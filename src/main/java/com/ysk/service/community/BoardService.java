@@ -18,6 +18,7 @@ import com.ysk.entity.Member;
 import com.ysk.entity.community.Board;
 import com.ysk.repository.MemberRepository;
 import com.ysk.repository.community.BoardRepository;
+import com.ysk.repository.community.ReplyRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +29,7 @@ public class BoardService {
 
   private final MemberRepository memberRepository;
   private final BoardRepository boardRepository;
+  private final ReplyRepository replyRepository;
 
   /**
    * 게시글 목록 조회 
@@ -58,7 +60,13 @@ public class BoardService {
         boardPage = boardRepository.findAll(pageable);
       }
     }
-    return boardPage.map(BoardResponseDto::new);
+    return boardPage.map(board -> {
+      // 해당 게시글의 댓글 수를 DB에서 조회
+      int replyCount = replyRepository.countByBoard_BoardSeq(board.getBoardSeq());
+
+      // 생성자를 호출하고 long으로 형변환 해준다.
+      return new BoardResponseDto(board, (long)replyCount);
+    });
     }
   
   /**
@@ -121,7 +129,6 @@ public class BoardService {
   // 2. 아까 만든 update 메서드로 내용만 쏙 바꿔치기 합니다.
   board.update(boardWriteDto.getTitle(), boardWriteDto.getContent());
   }
-
 
 
 }
