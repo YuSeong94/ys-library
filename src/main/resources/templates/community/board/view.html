@@ -278,9 +278,7 @@
         $(`#reply-content-${replySeq}`).show();
     }
 
-    // ==========================================
     // [기능 5] 댓글 수정 완료 (서버 전송)
-    // ==========================================
     function updateReply(replySeq) {
         const newContent = $(`#edit-input-${replySeq}`).val().trim();
 
@@ -290,17 +288,36 @@
         }
 
         if (newContent === originalContent) {
-            cancelEdit(replySeq); // 내용이 똑같으면 굳이 서버 통신 없이 닫기
+            cancelEdit(replySeq); 
             return;
         }
 
-        // 여기에 곧 서버(Ajax) 통신 코드를 채워넣을 겁니다!
-        console.log("서버로 보낼 데이터 ->", replySeq, newContent);
-        alert("이제 서버 쪽 컨트롤러를 만들 차례입니다!");
+        const payload = {
+            replySeq: replySeq,
+            content: newContent
+        };
+
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+
+        $.ajax({
+            type: "PUT",
+            url: "/community/reply/modify",
+            contentType: "application/json",
+            data: JSON.stringify(payload),
+            beforeSend: function(xhr) {
+                if (token && header) {
+                    xhr.setRequestHeader(header, token);
+                }
+            },
+            success: function(res) {
+                loadReplies(); // 성공 시 목록 싹 새로고침!
+            },
+            error: function(err) {
+                alert(err.responseText || "수정 중 오류가 발생했습니다.");
+            }
+        });
     }
-
-
-
 
     </script>
 </th:block>

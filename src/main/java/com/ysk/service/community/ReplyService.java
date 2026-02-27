@@ -1,6 +1,7 @@
 package com.ysk.service.community;
 
 import com.ysk.dto.community.ReplyDto;
+import com.ysk.dto.community.ReplyModifyRequestDto;
 import com.ysk.entity.Member;
 import com.ysk.entity.community.Board;
 import com.ysk.entity.community.Reply;
@@ -72,4 +73,22 @@ public class ReplyService {
 
         replyRepository.delete(reply);
     }
+
+
+    public void modifyReply(ReplyModifyRequestDto dto, Long loginMemberSeq) {
+        // 1. 기존 댓글 조회
+        Reply reply = replyRepository.findById(dto.getReplySeq())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글입니다."));
+
+        // 2. 권한 검증 (수정 요청한 사람이 진짜 작성자인지 확인)
+        if (!reply.getMember().getMemberSeq().equals(loginMemberSeq)) {
+            throw new IllegalStateException("본인의 댓글만 수정할 수 있습니다.");
+        }
+
+        // 3. 댓글 내용 변경 (이게 끝입니다! save 안 해도 됨)
+        reply.update(dto.getContent()); 
+    }
+
+
+    
 }

@@ -1,6 +1,7 @@
 package com.ysk.controller.community;
 
 import com.ysk.dto.community.ReplyDto;
+import com.ysk.dto.community.ReplyModifyRequestDto;
 import com.ysk.entity.Member;
 import com.ysk.service.community.ReplyService;
 import jakarta.servlet.http.HttpSession;
@@ -75,4 +76,24 @@ public class ReplyController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("댓글 삭제 중 오류가 발생했습니다.");
         }
     }
+
+    @PutMapping("/community/reply/modify")
+    @ResponseBody
+    public ResponseEntity<String> modifyReply(@RequestBody ReplyModifyRequestDto dto, HttpSession session) {
+        // 1. 로그인 확인
+        Member loginMember = (Member) session.getAttribute("loginMember");
+        if (loginMember == null) {
+            return ResponseEntity.status(403).body("로그인이 필요합니다.");
+        }
+
+        try {
+            // 2. 서비스 호출
+            replyService.modifyReply(dto, loginMember.getMemberSeq());
+            return ResponseEntity.ok("수정 완료");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
 }
