@@ -77,7 +77,7 @@ public class ReplyController {
         }
     }
 
-    @PutMapping("/community/reply/modify")
+    @PutMapping("/modify")
     @ResponseBody
     public ResponseEntity<String> modifyReply(@RequestBody ReplyModifyRequestDto dto, HttpSession session) {
         // 1. 로그인 확인

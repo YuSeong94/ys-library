@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ReplyService {
 
@@ -26,7 +27,6 @@ public class ReplyService {
      * 1. 댓글 등록
      * (Controller에서 세션에 있는 loginMember를 통째로 넘겨받습니다)
      */
-    @Transactional
     public Long saveReply(Long boardSeq, Member loginMember, String content) {
         // 1. 어느 게시글인지 DB에서 찾기
         Board board = boardRepository.findById(boardSeq)
@@ -61,7 +61,6 @@ public class ReplyService {
     /**
      * 3. 댓글 삭제 (🚨 백엔드 이중 보안 적용)
      */
-    @Transactional
     public void deleteReply(Long replySeq, Long loginMemberSeq) {
         Reply reply = replyRepository.findById(replySeq)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글입니다."));
@@ -73,7 +72,6 @@ public class ReplyService {
 
         replyRepository.delete(reply);
     }
-
 
     public void modifyReply(ReplyModifyRequestDto dto, Long loginMemberSeq) {
         // 1. 기존 댓글 조회
