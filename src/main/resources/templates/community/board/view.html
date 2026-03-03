@@ -146,13 +146,15 @@
                     replies.forEach(function(reply) {
                         let date = reply.regDatetime.substring(0, 16).replace('T', ' ');
 
-                        // ⭐ 전체 <li> 태그에 id를 주면 나중에 관리하기 편합니다.
+                        // 🔥 수정 여부에 따라 딱지 생성 (isEdited 가 true면 출력)
+                        let editBadge = reply.edited ? `<span class="text-danger ms-1" style="font-size: 0.75rem;">(수정됨)</span>` : ``;
+
                         html += `
                             <li class="list-group-item" id="reply-item-${reply.replySeq}">
                                 <div class="d-flex justify-content-between align-items-center mb-1">
                                     <strong>${reply.writerName}</strong>
                                     <div>
-                                        <small class="text-muted me-2">${date}</small>`;
+                                        <small class="text-muted">${date}${editBadge}</small>`;
                         
                         // 🔥 내 댓글이면 [수정], [삭제] 버튼 표시!
                         if (loginMemberSeq === reply.memberSeq) {

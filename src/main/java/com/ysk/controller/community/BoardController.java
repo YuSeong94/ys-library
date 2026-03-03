@@ -15,6 +15,9 @@ import com.ysk.dto.community.BoardWriteDto;
 import com.ysk.entity.Member;
 import com.ysk.service.community.BoardService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
@@ -111,11 +114,38 @@ public class BoardController {
    * 게시글 상세 페이지 이동
    */
   @GetMapping("/view/{boardSeq}")
-  public String view(@PathVariable(name = "boardSeq") Long boardSeq, Model model) {
+  public String view(@PathVariable(name = "boardSeq") Long boardSeq, Model model, 
+                    HttpServletRequest request, HttpServletResponse response) {
+                    
+    // 1. "postView_게시글번호" 이름의 쿠키가 있는지 확인
+    Cookie[] cookies = request.getCookies();
+    boolean isViewed = false;
+
+    if (cookies != null) {
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("postView_" + boardSeq)) {
+                isViewed = true; // 이미 읽은 글이네?
+                break;
+            }
+        }
+    }
+
+    // 2. 안 읽은 글이라면? -> 조회수 1 증가시키고, 쿠키 구워주기
+    if (!isViewed) {
+        boardService.increaseViewCount(boardSeq); // 조회수 증가 (Service에 새로 만든 메서드)
+        
+        Cookie newCookie = new Cookie("postView_" + boardSeq, "true");
+        newCookie.setMaxAge(60 * 60 * 24); // 쿠키 수명: 24시간
+        newCookie.setPath("/"); // 모든 경로에서 쿠키 접근 가능
+        response.addCookie(newCookie); // 사용자 브라우저로 쿠키 전송!
+    }
+
+    // 3. 기존의 게시글 상세 정보 불러오기 로직
+    // (⚠️ 주의: boardService.getBoardDetail 안에서는 더 이상 조회수가 올라가면 안 됩니다!)
     BoardDetailDto boardDetail = boardService.getBoardDetail(boardSeq);
-        
+      
     model.addAttribute("board", boardDetail);
-        
+      
     return "community/board/view";
   }
 

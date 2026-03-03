@@ -95,15 +95,10 @@ public class BoardService {
    * 게시글 상세 조회
    */
   public BoardDetailDto getBoardDetail(Long id) {
-    // 1. 게시글 찾기 (없으면 에러)
-    Board board = boardRepository.findById(id)
-                  .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. id=" + id));
+      Board board = boardRepository.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. id=" + id));
 
-    // 2. 조회수 1 증가
-    board.increaseViewCount(); 
-
-    // 3. DTO로 변환해서 리턴
-    return BoardDetailDto.fromEntity(board);
+      return BoardDetailDto.fromEntity(board);
     }
 
   /**
@@ -130,5 +125,15 @@ public class BoardService {
   board.update(boardWriteDto.getTitle(), boardWriteDto.getContent());
   }
 
+  /**
+   * 조회수 증가 메서드
+   */
+  public void increaseViewCount(Long id) {
+    Board board = boardRepository.findById(id)
+                  .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. id=" + id));
+        
+    // 더티 체킹으로 인해 이 코드만 실행되면 트랜잭션 종료 시 UPDATE 쿼리가 나갑니다.
+    board.increaseViewCount();
+  }
 
 }
