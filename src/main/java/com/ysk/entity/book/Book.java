@@ -1,16 +1,22 @@
-package com.ysk.entity;
+package com.ysk.entity.book;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
 
+import com.ysk.entity.BaseEntity;
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "book")
 public class Book extends BaseEntity {
 
