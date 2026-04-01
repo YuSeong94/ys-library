@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>알라딘 도서 검색 (사서 전용)</title>
+    <style>
+        .book-list { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px; }
+        .book-card { border: 1px solid #ccc; padding: 15px; width: 220px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
+        .book-card img { width: 100%; height: auto; border-bottom: 1px solid #eee; margin-bottom: 10px; }
+        .book-card h3 { font-size: 16px; margin: 0 0 10px 0; color: #333; }
+        .book-card p { font-size: 14px; margin: 5px 0; color: #666; }
+        .add-btn { width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; font-weight: bold; }
+        .add-btn:hover { background-color: #218838; }
+    </style>
+</head>
+<body>
+
+    <h1>📚 도서관 입고용 알라딘 API 검색</h1>
+
+    <form action="/librarian/book/search" method="get">
+        <input type="text" name="keyword" th:value="${keyword}" placeholder="도서명 또는 저자 검색" required style="padding: 5px; width: 300px;">
+        <button type="submit" style="padding: 6px 15px;">검색</button>
+    </form>
+
+    <hr>
+
+    <div th:if="${searchResults != null and !searchResults.isEmpty()}">
+        <h2>검색 결과</h2>
+        <div class="book-list">
+            <div class="book-card" th:each="book : ${searchResults}">
+                <img th:src="${book.cover}" alt="도서 표지">
+                <h3 th:text="${book.title}">도서 제목</h3>
+                <p><strong>저자:</strong> <span th:text="${book.author}">저자명</span></p>
+                <p><strong>출판사:</strong> <span th:text="${book.publisher}">출판사</span></p>
+                <p><strong>출판일:</strong> <span th:text="${book.pubDate}">출판일</span></p>
+                
+                <button type="button" class="add-btn" 
+                        th:onclick="|location.href='/librarian/book/save?isbn13=${book.isbn13}'|">
+                    우리 도서관에 입고하기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${searchResults != null and searchResults.isEmpty()}">
+        <p style="color: red;">요청하신 키워드에 대한 도서 검색 결과가 없습니다.</p>
+    </div>
+
+</body>
+</html>
