@@ -13,7 +13,7 @@
             line-height: 1.6;   /* 줄 간격 넉넉하게 */
         }
 
-        /* ⭐ 중요: 이미지가 화면보다 크면 자동으로 줄여줌 */
+        /* 이미지가 화면보다 크면 자동으로 줄여줌 */
         .board-content img {
             max-width: 100%;
             height: auto;
@@ -130,9 +130,7 @@
         });
     });
 
-    // ==========================================
-    // [기능 1] 댓글 목록 불러오기 (GET)
-    // ==========================================
+    // ===== [기능 1] 댓글 목록 불러오기 (GET) =====
     function loadReplies() {
         $.ajax({
             type: "GET",
@@ -146,7 +144,7 @@
                     replies.forEach(function(reply) {
                         let date = reply.regDatetime.substring(0, 16).replace('T', ' ');
 
-                        // 🔥 수정 여부에 따라 딱지 생성 (isEdited 가 true면 출력)
+                        // 수정 여부에 따라 딱지 생성 (isEdited 가 true면 출력)
                         let editBadge = reply.edited ? `<span class="text-danger ms-1" style="font-size: 0.75rem;">(수정됨)</span>` : ``;
 
                         html += `
@@ -156,14 +154,14 @@
                                     <div>
                                         <small class="text-muted">${date}${editBadge}</small>`;
                         
-                        // 🔥 내 댓글이면 [수정], [삭제] 버튼 표시!
+                        // 내 댓글이면 [수정], [삭제] 버튼 표시
                         if (loginMemberSeq === reply.memberSeq) {
                             html += `
                                 <button type="button" class="btn btn-sm btn-outline-primary py-0 px-2 me-1" onclick="showEditForm(${reply.replySeq})">수정</button>
                                 <button type="button" class="btn btn-sm btn-outline-danger py-0 px-2" onclick="deleteReply(${reply.replySeq})">삭제</button>`;
                         }
                         
-                        // ⭐ 여기가 제일 중요! 본문 내용이 들어가는 div에 id를 부여합니다.
+                        // 본문 내용이 들어가는 div에 id를 부여한다.
                         html += `   </div>
                                 </div>
                                 <div id="reply-content-${reply.replySeq}" class="reply-content mt-2" style="white-space: pre-wrap;">${reply.content}</div>
@@ -178,9 +176,7 @@
         });
     }
 
-    // ==========================================
-    // [기능 2] 댓글 등록하기 (POST)
-    // ==========================================
+    // ===== [기능 2] 댓글 등록하기 (POST) =====
   function saveReply() {
       // 1. meta 태그에서 토큰 정보 읽어오기
       const token = $("meta[name='_csrf']").attr("content");
@@ -204,7 +200,7 @@
           url: "/community/reply/save",
           contentType: "application/json",
           data: JSON.stringify(payload),
-          // 2. 서버로 보내기 전 헤더에 CSRF 토큰 심기!
+          // 2. 서버로 보내기 전 헤더에 CSRF 토큰 심기
           beforeSend: function(xhr) {
               if (token && header) {
                   xhr.setRequestHeader(header, token);
@@ -226,9 +222,7 @@
       });
   }
 
-    // ==========================================
-    // [기능 3] 댓글 삭제하기 (DELETE)
-    // ==========================================
+    // ===== [기능 3] 댓글 삭제하기 (DELETE) =====
     function deleteReply(replySeq) {
         if (!confirm("정말 삭제하시겠습니까?")) return;
 
@@ -236,7 +230,7 @@
             type: "DELETE",
             url: `/community/reply/delete/${replySeq}`,
             success: function(res) {
-                loadReplies(); // 삭제 후 최신 목록 다시 불러오기!
+                loadReplies(); // 삭제 후 최신 목록 다시 불러오기
             },
             error: function(err) {
                 alert(err.responseText || "삭제 중 오류가 발생했습니다.");
@@ -244,9 +238,7 @@
         });
     }
 
-    // ==========================================
-    // [기능 4] 댓글 수정 폼 띄우기 및 취소
-    // ==========================================
+    // ===== [기능 4] 댓글 수정 폼 띄우기 및 취소 =====
     let originalContent = ""; // 수정을 취소할 때 복구하기 위한 변수
 
     function showEditForm(replySeq) {
@@ -280,7 +272,7 @@
         $(`#reply-content-${replySeq}`).show();
     }
 
-    // [기능 5] 댓글 수정 완료 (서버 전송)
+    // ===== [기능 5] 댓글 수정 완료 (서버 전송) =====
     function updateReply(replySeq) {
         const newContent = $(`#edit-input-${replySeq}`).val().trim();
 
@@ -313,7 +305,7 @@
                 }
             },
             success: function(res) {
-                loadReplies(); // 성공 시 목록 싹 새로고침!
+                loadReplies(); // 성공 시 목록 싹 새로고침
             },
             error: function(err) {
                 alert(err.responseText || "수정 중 오류가 발생했습니다.");
