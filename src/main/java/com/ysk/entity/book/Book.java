@@ -44,7 +44,7 @@ public class Book extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String description;     // 책 소개
 
-    private String thumbnailUrl;    // 표지 이미지 URL
+    private String coverUrl;    // 표지 이미지 URL
 
     private LocalDate publicationDate; // 출판일자
 
