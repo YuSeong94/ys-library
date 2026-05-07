@@ -24,7 +24,7 @@ public class AladinItemDto {
                 .publisher(this.publisher)
                 .isbn(this.isbn13)
                 .description(this.description)
-                .thumbnailUrl(this.cover)
+                .coverUrl(this.cover)
                 .category(this.categoryName)
                 // 알라딘 데이터에는 초기 재고가 없으니 기본값(예: 5권)을 줍니다.
                 .totalQuantity(5) 
