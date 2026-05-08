@@ -25,21 +25,27 @@
     <hr>
 
     <div th:if="${searchResults != null and !searchResults.isEmpty()}">
-        <h2>검색 결과</h2>
-        <div class="book-list">
-            <div class="book-card" th:each="book : ${searchResults}">
-                <img th:src="${book.cover}" alt="도서 표지">
-                <h3 th:text="${book.title}">도서 제목</h3>
-                <p><strong>저자:</strong> <span th:text="${book.author}">저자명</span></p>
-                <p><strong>출판사:</strong> <span th:text="${book.publisher}">출판사</span></p>
-                <p><strong>출판일:</strong> <span th:text="${book.pubDate}">출판일</span></p>
-                
-                <button type="button" class="add-btn" 
-                        th:onclick="|location.href='/librarian/book/save?isbn13=${book.isbn13}'|">
-                    우리 도서관에 입고하기
-                </button>
-            </div>
+      <h2>검색 결과</h2>
+      <div class="book-list">
+        <div class="book-card" th:each="book : ${searchResults}">
+          <img th:src="${book.cover}" alt="도서 표지">
+          <h3 th:text="${book.title}">도서 제목</h3>
+          <p><strong>저자:</strong> <span th:text="${book.author}">저자명</span></p>
+          <p><strong>출판사:</strong> <span th:text="${book.publisher}">출판사</span></p>
+          <p><strong>출판일:</strong> <span th:text="${book.pubDate}">출판일</span></p>
+            
+          <!-- 💡 수정한 부분: 단순 버튼 대신 Form으로 감싸서 데이터를 서버로 안전하게(POST) 보냅니다. -->
+          <form action="/librarian/book/save" method="post" style="margin-top: 10px;">
+            <!-- 사용자 눈에는 안 보이지만 서버로 넘어갈 데이터들 -->
+            <input type="hidden" name="title" th:value="${book.title}">
+            <input type="hidden" name="author" th:value="${book.author}">
+            <input type="hidden" name="isbn13" th:value="${book.isbn13}">
+            <input type="hidden" name="cover" th:value="${book.cover}">
+            
+            <button type="submit" class="add-btn">우리 도서관에 입고하기</button>
+          </form>
         </div>
+      </div>
     </div>
 
     <div th:if="${searchResults != null and searchResults.isEmpty()}">
